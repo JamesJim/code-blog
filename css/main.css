@@ -1,0 +1,167 @@
+/* Main Styles */
+
+
+body {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: center;
+  color: #000;
+  font: helvetica, sans-serif;
+  margin: 5px;
+  padding: 0;
+}
+
+.main-header {
+  width: 100%;
+  margin:0;
+  padding: 0;
+  background: lightgray;
+}
+
+nav ul {
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  list-style: none;
+  padding: 3px;
+}
+
+nav li a {
+  text-decoration: none;
+  color: blue;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin: 10px;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin: 5px;
+}
+
+h3 {
+  font-size: 1em;
+  margin: 3px;
+}
+
+.article-body {
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0 10px;
+}
+
+.article-body img {
+  margin: 15px auto;
+  padding: 0;
+  display: block;
+  max-width: 200px;
+  max-height: 200px;
+  text-align: center;
+}
+
+.pull-left {
+  text-align: center;
+}
+
+.pull-right {
+
+}
+
+.article-body p {
+  font-size: 1em;
+  margin: 5px;
+  padding: 0;
+}
+
+.footer {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  background: lightgray;
+  margin: 0;
+  padding: 0;
+}
+
+.footer span {
+  order: 100;
+  margin: 0;
+  padding: 0;
+  align-self: center;
+}
+
+
+/* Layout */
+
+@media (min-width: 769px){
+
+.main-header,
+.article-header,
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.main-header {
+  flex-direction: column;
+  align-self: center;
+  order: -1;
+  margin-bottom: 15px;
+}
+
+.title {
+  margin-left: 0;
+}
+
+.nav {
+  justify-content: center;
+  align-items: center;
+
+}
+
+.nav li {
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: center;
+  margin: 4px;
+  padding: 0;
+}
+
+.article-header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.article-body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+}
+
+.article-body p {
+
+  width: 45%;
+  font-size: 1em;
+  text-align: center;
+  margin-bottom: 60px;
+  column-count: 2;
+  border: solid black;
+  padding: 5px;
+}
+
+
+} /*End media query for screen min 769px*/
+
+@media (min-width: 1000px){
+.article-body p {
+  width: 30%;
+}
+
+}
