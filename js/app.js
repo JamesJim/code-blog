@@ -1,3 +1,4 @@
+/*********** Class-01 Branch ************/
 
 
 //Constructor function for articles
@@ -48,10 +49,14 @@
     }
   });
 
+
+/*********** Class-02 Branch ************/
+
+
   //Filter arrays and return unique values
   $(function() {
 
-    //function to build array of all categories from blog.rawData
+    //function to build array of all category names from blog.rawData
     function getCategoryFilterItems(){
       var tempFilterArray = [];
       for(i=0; i<blog.rawData.length; i++){
@@ -60,9 +65,11 @@
       console.log(tempFilterArray);
       return tempFilterArray;
     }
+    //Store returned array in a variable
     var categoryStrings = getCategoryFilterItems();
 
-    //function to build array of all authors from blog.rawData
+
+    //function to build array of all author names from blog.rawData
     function getAuthorFilterItems(){
       var tempFilterArray = [];
       for(i=0; i<blog.rawData.length; i++){
@@ -71,6 +78,7 @@
       console.log(tempFilterArray);
       return tempFilterArray;
     }
+    //Store returned array in a variable
     var authorStrings = getAuthorFilterItems();
 
     //Function to put all the unique items in an array
@@ -86,8 +94,10 @@
       }
       return outputArray;
     }
+    //Store returned unique arrays in a variable
     var uniqueCategories = getUnique(categoryStrings);
     var uniqueAuthors = getUnique(authorStrings);
+
 
     //Functions to print unique arrays and option tags to the select tag
     function printToSelect(array, elementId){
@@ -98,6 +108,10 @@
     }
     printToSelect(uniqueCategories, '#category-filter');
     printToSelect(uniqueAuthors, '#author-filter');
+
+
+
+
 
 
   });
