@@ -14,10 +14,28 @@
       <ul class="nav">
         <li><a href="index.html">Home</a></li>
         <li><a href="#articles">Articles</a></li>
-        <li><a href="#about">About</a></li>
+        <li><a href="#" id="about" class="about-link">About</a></li>
       </ul>
     </nav>
+    <section class="filters">
+      <select id="author-filter">
+        <option>Filter by author</option>
+      </select>
+      <select id="category-filter">
+        <option>Filter by category</option>
+      </select>
+    </section>
   </header>
+  <section class="about">
+    <p>
+      Oh, Hey There!  This page was built using CSS Flexbox for styling!  Good idea?  Bad idea?  Who cares, it's different!
+    </p>
+    <iframe src="//giphy.com/embed/H2dmCtNyFoJZS" width="480" height="266" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="http://giphy.com/gifs/row-ups-H2dmCtNyFoJZS">via GIPHY</a></p>
+    <p>
+      This page brought to you by: JamesJim
+    </p>
+    <button type="button" class="about-button">OK, we get it.</button>
+  </section>
 
   <main class="main-content">
     <section id="articles">
@@ -30,6 +48,9 @@
         </section>
 
         <section class="article-body"></section>
+        <section id="expand-article">
+
+        </section>
 
       </article>
     </section>
