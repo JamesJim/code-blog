@@ -22,9 +22,8 @@
     $newAr.find('a.authorUrl').attr('href', this.authorUrl);
     $newAr.find('h3.category').html('Category: '+this.category);
     $newAr.find('h3.date').html('Posted ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
-    $newAr.find('section.article-body').html(this.body).children().not('p:first').hide().html("<p><button type=\"button\">Show full article</button><p>");
-    // $newAr.find('section.article-body').html("<p><button type=\"button\">Show full article</button><p>");
-    $newAr.find('section.article-body').append();
+    $newAr.find('section.article-body').html(this.body).children().not(':lt(3)').hide();
+    $newAr.find('#expand-article').html('<button class="expand-button" type="button">Show full article</button>');
     $newAr.append('<hr>');
     return $newAr;
   };
@@ -116,13 +115,23 @@
     //On Author or Category select change, hide all divs, then show selected
     $('select').on('change', function (e) {
       var $selection = $(this).val();
+      // if($(this).val() = null){
       if($(this).attr('id') == 'author-filter'){
         $('article').hide();
-        $(".authorUrl:contains('" + $selection + "')").parents('article').show();
+        $(".authorUrl:contains('" + $selection + "')").parents('article').show(':lt(3)');
       } else {
         $('article').hide();
-        $(".category:contains('" + $selection + "')").parents('article').show();
+        $(".category:contains('" + $selection + "')").parents('article').show(':lt(3)');
       }
+    });
+
+    $('.expand-button').on('click', function(e){
+      $(this).text(function(i, text){
+        return text === "Show Less" ? "Show Full Article" : "Show Less";
+      });
+      $(this).parent().prev().children().show();
+      console.log("The JS interpret should've expanded now");
+
     });
 
 
