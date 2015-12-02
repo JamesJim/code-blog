@@ -138,9 +138,17 @@
       if($(this).text() == 'Show Full Article') {
         $(this).parent().prev().children().hide(':gt(2)');
       }
-
     });
 
+    //Toggle class of About when link clicked
+    $('.about-link').on('click', function(e){
+      $('.about').css('display', 'flex');
+    });
+
+    //Close about section
+    $('.about-button').on('click', function(e){
+      $('.about').css('display', 'none');
+    })
 
 
 
@@ -148,13 +156,3 @@
 
 
   });
-
-  // $(function() {
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  // });
