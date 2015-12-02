@@ -22,10 +22,14 @@
     $newAr.find('a.authorUrl').attr('href', this.authorUrl);
     $newAr.find('h3.category').html('Category: '+this.category);
     $newAr.find('h3.date').html('Posted ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
-    $newAr.find('section.article-body').html(this.body);
+    $newAr.find('section.article-body').html(this.body).children().not('p:first').hide().html("<p><button type=\"button\">Show full article</button><p>");
+    // $newAr.find('section.article-body').html("<p><button type=\"button\">Show full article</button><p>");
+    $newAr.find('section.article-body').append();
     $newAr.append('<hr>');
     return $newAr;
   };
+
+
 
   //function to sort raw data
   $(function() {
@@ -109,9 +113,32 @@
     printToSelect(uniqueCategories, '#category-filter');
     printToSelect(uniqueAuthors, '#author-filter');
 
+    //On Author or Category select change, hide all divs, then show selected
+    $('select').on('change', function (e) {
+      var $selection = $(this).val();
+      if($(this).attr('id') == 'author-filter'){
+        $('article').hide();
+        $(".authorUrl:contains('" + $selection + "')").parents('article').show();
+      } else {
+        $('article').hide();
+        $(".category:contains('" + $selection + "')").parents('article').show();
+      }
+    });
+
+
 
 
 
 
 
   });
+
+  // $(function() {
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  // });

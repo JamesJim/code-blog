@@ -94,6 +94,10 @@ h3 {
   align-self: center;
 }
 
+.hide-article {
+  display: none;
+}
+
 
 /* Layout */
 
