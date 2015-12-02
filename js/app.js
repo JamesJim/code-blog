@@ -112,7 +112,7 @@
     printToSelect(uniqueCategories, '#category-filter');
     printToSelect(uniqueAuthors, '#author-filter');
 
-    //On Author or Category select change, hide all divs, then show selected
+    //On Author or Category select change, hide all divs, then show selected's preview
     $('select').on('change', function (e) {
       var $selection = $(this).val();
       // if($(this).val() = null){
@@ -125,12 +125,19 @@
       }
     });
 
+    //When button clicked, toggle button text; toggle expand and retract
     $('.expand-button').on('click', function(e){
       $(this).text(function(i, text){
         return text === "Show Less" ? "Show Full Article" : "Show Less";
       });
-      $(this).parent().prev().children().show();
-      console.log("The JS interpret should've expanded now");
+
+      $(this).parent().prev().children().show(function(i, show){
+        return show === ':gt(0)' ? ':lt(3)' : ':gt(0)';
+      });
+
+      if($(this).text() == 'Show Full Article') {
+        $(this).parent().prev().children().hide(':gt(2)');
+      }
 
     });
 
