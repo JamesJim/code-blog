@@ -23,7 +23,7 @@
     $newAr.find('h3.category').html('Category: '+this.category);
     $newAr.find('h3.date').html('Posted ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
     $newAr.find('section.article-body').html(this.body).children().not(':lt(3)').hide();
-    $newAr.find('#expand-article').html('<button class="expand-button" type="button">Show full article</button>');
+    $newAr.find('#expand-article').html('<button class=\'expand-button\' type=\'button\'>Show full article</button>');
     $newAr.append('<hr>');
     return $newAr;
   };
@@ -32,6 +32,8 @@
 
   //function to sort raw data
   $(function() {
+
+
 
     function sortByDate(A) {
       A.sort(
@@ -50,6 +52,7 @@
       dataArray = new makeArticle(blog.rawData[i]);
       $('#articles').append(dataArray.toHtml());
     }
+    $('.article-header:lt(1)').hide();
   });
 
 
@@ -90,8 +93,8 @@
       var outputArray = [];
 
       for (i=0; i < inputArray.length; i++){
-        if (($.inArray(inputArray[i], outputArray)) == -1)
-        {
+        //If inputArray item is not in outputArray, then push item to output array
+        if (($.inArray(inputArray[i], outputArray)) == -1){
           outputArray.push(inputArray[i]);
         }
       }
@@ -105,7 +108,7 @@
     //Functions to print unique arrays and option tags to the select tag
     function printToSelect(array, elementId){
       for(i=0; i<array.length; i++){
-        $(elementId).append("<option value='"+array[i]+"'>"+array[i]+"</option>");
+        $(elementId).append('<option value=\''+array[i]+'\'>'+array[i]+'</option>');
         console.log(array[i]);
       }
     }
@@ -114,21 +117,30 @@
 
     //On Author or Category select change, hide all divs, then show selected's preview
     $('select').on('change', function (e) {
+      // console.log('event', e);
+      // console.log('this', this)
       var $selection = $(this).val();
-      // if($(this).val() = null){
+      if( ($selection == 'Filter by category') || ($selection == 'Filter by author')){
+        console.log('val:', $selection);
+
+        $('article').show();
+
+      } else
+
       if($(this).attr('id') == 'author-filter'){
+        // console.log($(this).attr('id'));
         $('article').hide();
-        $(".authorUrl:contains('" + $selection + "')").parents('article').show(':lt(3)');
+        $('.authorUrl:contains(\'' + $selection + '\')').parents('article').show(':lt(3)');
       } else {
         $('article').hide();
-        $(".category:contains('" + $selection + "')").parents('article').show(':lt(3)');
+        $('.category:contains(\'' + $selection + '\')').parents('article').show(':lt(3)');
       }
     });
 
     //When button clicked, toggle button text; toggle expand and retract
     $('.expand-button').on('click', function(e){
       $(this).text(function(i, text){
-        return text === "Show Less" ? "Show Full Article" : "Show Less";
+        return text === 'Show Less' ? 'Show Full Article' : 'Show Less';
       });
 
       $(this).parent().prev().children().show(function(i, show){
@@ -142,17 +154,14 @@
 
     //Toggle class of About when link clicked
     $('.about-link').on('click', function(e){
+      $('article').hide();
       $('.about').css('display', 'flex');
     });
 
     //Close about section
     $('.about-button').on('click', function(e){
+      $('article').show();
       $('.about').css('display', 'none');
-    })
-
-
-
-
-
+    });
 
   });
