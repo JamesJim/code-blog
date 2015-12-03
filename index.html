@@ -13,28 +13,28 @@
     <nav>
       <ul class="nav">
         <li><a href="index.html">Home</a></li>
-        <li><a href="#articles">Articles</a></li>
+        <!-- <li><a href="#articles">Articles</a></li> -->
         <li><a href="#" id="about" class="about-link">About</a></li>
       </ul>
     </nav>
     <section class="filters">
       <select id="author-filter">
-        <option>Filter by author</option>
+        <option class="option" value='Filter by author'>Filter by author</option>
       </select>
-      <select id="category-filter">
-        <option>Filter by category</option>
+      <select class="option" id="category-filter">
+        <option value='Filter by category'>Filter by category</option>
       </select>
     </section>
   </header>
   <section class="about">
     <p>
-      Oh, Hey There!  This page was built using CSS Flexbox for styling!  Good idea?  Bad idea?  Who cares, it's different!
+      Oh, Hey There!  This page was built using CSS Flexbox for styling!
     </p>
     <iframe src="//giphy.com/embed/H2dmCtNyFoJZS" width="480" height="266" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="http://giphy.com/gifs/row-ups-H2dmCtNyFoJZS">via GIPHY</a></p>
     <p>
       This page brought to you by: JamesJim
     </p>
-    <button type="button" class="about-button">OK, we get it.</button>
+    <button type="button" class="about-button">OK, we get it. Back to home.</button>
   </section>
 
   <main class="main-content">
@@ -42,7 +42,7 @@
       <article class="arTemplate">
         <section class="article-header">
           <h1 class="title"></h1>
-          <h2 class="author"><a class="authorUrl" href="authorUrl"></a></h2>
+          <h3 class="author"><a class="authorUrl" href="authorUrl"></a></h2>
           <h3 class="category"></h3>
           <h3 class="date"><time pubdate datetime=""></time></h3>
         </section>

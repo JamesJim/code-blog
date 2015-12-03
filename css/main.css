@@ -6,47 +6,93 @@ body {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   text-align: center;
-  color: #000;
   font: helvetica, sans-serif;
   margin: 5px;
   padding: 0;
+}
+
+
+h1 {
+  font-size: 2em;
+  color: #fff;
+  font-weight: bold;
+}
+
+p {
+  font-size: 1em;
+  font-weight: bold;
 }
 
 .main-header {
   width: 100%;
   margin:0;
   padding: 0;
-  background: lightgray;
+  background: #00cc66;
+  border-radius: 5px;
 }
 
-nav ul {
-  padding: 0;
-  margin: 0;
-}
-
-nav li {
-  list-style: none;
-  padding: 3px;
-}
-
-nav li a {
-  text-decoration: none;
-  color: blue;
-}
-
-h1 {
-  font-size: 2.5em;
+.main-header h1 {
   margin: 10px;
 }
 
-h2 {
-  font-size: 1.5em;
+.main-header p {
+  font-size: 1.3em;
+  margin: 3px;
+  border-bottom: solid;
+}
+
+.main-header ul {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
   margin: 5px;
 }
 
+.main-header li {
+  list-style: none;
+  padding: 3px;
+  margin: 0px;
+  justify-content: center;
+}
+
+.main-header a {
+  font-size: 1.2em;
+  text-decoration: none;
+  color: white;
+  background:#0099cc;
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-around;
+  width: 99%;
+  margin: 0 auto;
+}
+
+.filters select {
+  align-self: center;
+  width: 100%;
+}
+
+.article-header {
+  background: #0099cc;
+  border-radius: 5px;
+}
+
+.article-header h1 {
+  margin:5px;
+}
+
 h3 {
-  font-size: 1em;
+  color: #fff;
+  font-size: 1.5em;
   margin: 3px;
+}
+
+.article-header a {
+  color: #fff;
 }
 
 .article-body {
@@ -63,16 +109,11 @@ h3 {
   max-height: 200px;
   text-align: center;
 }
-
-.pull-left {
-  text-align: center;
-}
-
-
 .article-body p {
   font-size: 1em;
   margin: 5px;
   padding: 0;
+  border-radius: 5px;
 }
 
 .footer {
@@ -96,90 +137,101 @@ h3 {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 2000px;
+  height: 800px;
 }
 
-/*:hover {
-  flex-grow: 5;
-  border-color: orange;
-}*/
+a:hover {
+  background-color: orange;
+  border-radius: 5px;
+}
 
 
 /* Layout */
 
 @media (min-width: 769px){
 
-.main-header,
-.article-header,
-.nav {
-  display: flex;
-  align-items: center;
-}
+  .main-header,
+  .article-header,
+  .nav {
+    display: flex;
+    align-items: center;
+  }
 
-.main-header {
-  flex-direction: column;
-  align-self: center;
-  order: -1;
-  margin-bottom: 15px;
-}
+  .main-header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    order: -1;
+    margin-bottom: 15px;
+  }
 
-.title {
-  margin-left: 0;
-}
+  .title {
+    margin-left: 0;
+  }
 
-h1 {
-  font-size: 3em;
-  color: blue;
-  text-shadow: 1px 1px black;
-}
+  .main-header p {
+    align-self: center;
+    font-size: 1.8em;
 
-.main-header p {
-  font-size: 1.5em;
+  }
 
-}
+  .main-header h1 {
+    font-size: 3em;
+  }
 
-.nav {
-  justify-content: center;
-  align-items: center;
+  .main-header ul {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 5px;
+  }
 
-}
+  .nav li {
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: center;
+    margin: 4px;
+    padding: 0;
+  }
 
-.nav li {
-  flex-direction: row;
-  justify-content: space-between;
-  align-self: center;
-  margin: 4px;
-  padding: 0;
-}
+  .filters {
+    align-self: flex-end;
+    width: 99%;
+    margin: 0 auto;
+  }
 
-.article-header {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-}
 
-.article-body {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: space-around;
-}
 
-.article-body p {
+  .article-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
 
-  width: 45%;
-  font-size: 1em;
-  text-align: center;
-  margin-bottom: 60px;
-  column-count: 2;
-  border: solid black;
-  padding: 5px;
-}
+  .article-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-around;
+  }
 
-.about p {
-  font-size: 3em;
-}
+  .article-body p {
+
+    width: 45%;
+    font-size: 1em;
+    text-align: center;
+    margin-bottom: 60px;
+    column-count: 2;
+    border: solid #003399;
+    padding: 5px;
+  }
+
+  .about p {
+    font-size: 1.5em;
+    margin: 20px;
+  }
 
 } /*End media query for screen min 769px*/
 
@@ -187,5 +239,8 @@ h1 {
 .article-body p {
   width: 30%;
 }
+
+
+
 
 }
