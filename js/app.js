@@ -23,7 +23,7 @@
     $newAr.find('h3.category').html('Category: '+this.category);
     $newAr.find('h3.date').html('Posted ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
     $newAr.find('section.article-body').html(this.body).children().not(':lt(3)').hide();
-    $newAr.find('#expand-article').html('<button class=\'expand-button\' type=\'button\'>Show full article</button>');
+    $newAr.find('#expand-article').html('<button class=\'expand-button\' type=\'button\'>Show Full Post</button>');
     $newAr.append('<hr>');
     return $newAr;
   };
@@ -140,14 +140,14 @@
     //When button clicked, toggle button text; toggle expand and retract
     $('.expand-button').on('click', function(e){
       $(this).text(function(i, text){
-        return text === 'Show Less' ? 'Show Full Article' : 'Show Less';
+        return text === 'I\'m Done!' ? 'Show Full Post' : 'I\'m Done!';
       });
 
       $(this).parent().prev().children().show(function(i, show){
         return show === ':gt(0)' ? ':lt(3)' : ':gt(0)';
       });
 
-      if($(this).text() == 'Show Full Article') {
+      if($(this).text() == 'Show Full Post') {
         $(this).parent().prev().children().hide(':gt(2)');
       }
     });
