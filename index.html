@@ -9,27 +9,29 @@
 
 
 </head>
+
 <body class="body">
-  <header class="main-header">
-    <h1>My Blog!</h1>
-    <p>Best Blog Ever</p>
+  <header class="main-header flex-container">
+    <h1 class="flex-item">My Blog!</h1>
+    <h2 class="flex-item"><em>Best Blog Ever</em></h2>
     <nav>
-      <ul class="nav">
-        <li><a href="index.html">Home</a></li>
+      <ul class="nav flex-container">
+        <li class="flex-item"><a href="index.html">Home</a></li>
         <!-- <li><a href="#articles">Articles</a></li> -->
-        <li><a href="#" id="about" class="about-link">About</a></li>
+        <li class="flex-item"><a href="#" id="about" class="about-link">About</a></li>
       </ul>
     </nav>
-    <section class="filters">
-      <select id="author-filter">
+    <section class="filters flex-container flex-item">
+      <select id="author-filter" class="flex-item">
         <option class="option" value="Filter by author">Filter by author</option>
       </select>
-      <select class="option" id="category-filter">
-        <option value="Filter by category">Filter by category</option>
+      <select id="category-filter" class="flex-item">
+        <option class="option" value="Filter by category">Filter by category</option>
       </select>
     </section>
   </header>
-  <section class="about">
+
+  <section id="about-hide" class="flex-container">
     <p>
       Oh, Hey There!  This page was built using CSS Flexbox for styling!
     </p>
@@ -70,15 +72,15 @@
 
   <script id="articleTemplate" type="text/x-handlebars-template">
       {{#each data}}
-      <article class="arTemplate">
-        <section id="content-header" class="article-header">
-          <h1 class="title">{{title}}</h1>
-          <h3 class="author">Author: <a class="authorUrl" href="{{authorUrl}}">{{author}}</a></h3>
-          <h3 class="category">Category: {{category}}</h3>
-          <h3 class="date"><time pubdate datetime="{{publishedOn}}">{{publishedOn}}</time></h3>
+      <article class="arTemplate flex-container">
+        <section id="content-header" class="article-header flex-container flex-item">
+          <h1 class="title flex-item">{{title}}</h1>
+          <h3 class="author flex-item">Author: <a class="authorUrl" href="{{authorUrl}}">{{author}}</a></h3>
+          <h3 class="category flex-item">Category: {{category}}</h3>
+          <h3 class="date flex-item"><time pubdate datetime="{{publishedOn}}">{{publishedOn}}</time></h3>
         </section>
-        <section class="article-body">{{{body}}}</section>
-        <section id="expand-article">
+        <section class="article-body flex-container flex-item">{{{body}}}</section>
+        <section id="expand-article flex-item">
           <button class="expand-button" type="button">Show Full Post</button>
         </section>
       </article>

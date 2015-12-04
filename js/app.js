@@ -78,14 +78,15 @@ $(function() {
 
 
 $('.date').find('time').each( function(){
-  var zzz = $(this).text();
-  console.log(parseInt(zzz));
-
-  var daysOld = 'Posted ' + parseInt((new Date() - new Date(zzz))/60/60/24/1000) + ' days ago';
+  var datePublished = $(this).text();
+  var daysOld = 'Posted ' + parseInt((new Date() - new Date(datePublished))/60/60/24/1000) + ' days ago';
   $(this).text(daysOld);
 
-// 'Posted ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
+$('section.article-body').each( function(){
 
+  $(this).children().not(':lt(1)').hide();
+
+});
 
 
 });
@@ -213,13 +214,13 @@ $('.date').find('time').each( function(){
     //Toggle class of About when link clicked
     $('.about-link').on('click', function(e){
       $('article').hide();
-      $('.about').css('display', 'flex');
+      $('#about-hide').css('display', 'flex');
     });
 
     //Close about section
     $('.about-button').on('click', function(e){
       $('article').show();
-      $('.about').css('display', 'none');
+      $('#about-hide').css('display', 'none');
     });
 
   });
