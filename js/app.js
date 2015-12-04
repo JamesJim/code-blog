@@ -63,17 +63,14 @@ $(function() {
 
   //compile the template
   var renderer = Handlebars.compile(articleTemplate);
-  // console.log(compiledTemplate);
 
+  //save our data array in a variable so that we can make it an object
   var data = blog.rawData;
 
-  // var articlesObject = data;
   //pass data to the template
   var compiledHtml = renderer({data});
-  // console.log('hi' + compiledHtml);
-  // console.log('hello');
 
-  //add compiled html to page
+  //add compiled html to DOM by inserting an id attribute in an element
   $('#handlebarsOutput').html(compiledHtml);
 
 
@@ -174,10 +171,11 @@ $('section.article-body').each( function(){
       } else if($(this).attr('id') == 'author-filter'){
         // console.log($(this).attr('id'));
         $('article').hide();
-        $('.authorUrl:contains(\'' + $selection + '\')').parents('article').show(':lt(3)');
+        console.log($('.authorUrl:contains(\'' + $selection + '\')').parents('article'));
+        $('.authorUrl:contains(\'' + $selection + '\')').parents('article').show(':lt(2)');
       } else {
         $('article').hide();
-        $('.category:contains(\'' + $selection + '\')').parents('article').show(':lt(3)');
+        $('.category:contains(\'' + $selection + '\')').parents('article').show(':lt(2)');
       }
     });
 

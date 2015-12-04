@@ -53,9 +53,10 @@ a {
 }
 
 select {
-  line-height: 30px;
-  height: 30px;
-  background-color: lightgray;
+  color: black;
+  line-height: 20px;
+  height: 20px;
+  background-color: #fff;
   margin-bottom: 2px;
 }
 
