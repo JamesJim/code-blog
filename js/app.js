@@ -168,6 +168,7 @@ $('section.article-body').each( function(){
       // console.log('event', e);
       // console.log('this', this)
       var $selection = $(this).val();
+      console.log($selection);
       if( ($selection == 'Filter by category') || ($selection == 'Filter by author')){
         $('article').show();
       } else if($(this).attr('id') == 'author-filter'){

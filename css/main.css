@@ -53,6 +53,9 @@ a {
 }
 
 select {
+  line-height: 30px;
+  height: 30px;
+  background-color: lightgray;
   margin-bottom: 2px;
 }
 
@@ -60,8 +63,8 @@ img {
   display: block;
   margin: 40px auto;
   padding: 0;
-  max-width: 300px;
-  max-height: 300px;
+  max-width: 200px;
+  max-height: 200px;
   border-radius: 10%;
 }
 
@@ -77,9 +80,7 @@ img {
 }
 
 .filters {
-  flex: 1;
-  align-self: center;
-  width: 50%;
+  width: 64%;
 }
 
 .article-header {
@@ -103,9 +104,6 @@ img {
 }
 
 .footer span {
-  order: 100;
-  margin: 0;
-  padding: 0;
   align-self: center;
 }
 
@@ -131,7 +129,11 @@ a:hover {
   display: flex;
   flex-direction: column;
   border-radius: 5px;
+}
 
+.filters {
+  flex-direction: row;
+  align-self: center;
 }
 
 .flex-item {
@@ -142,6 +144,12 @@ a:hover {
 
 @media (min-width: 600px){
 
+  /*Styles */
+  img {
+  max-width: 350px;
+  max-height: 350px;
+  }
+
   .main-header h1 {
   font-size: 2.5em;
   }
@@ -150,33 +158,33 @@ a:hover {
     font-size: 1.8em
   }
 
-  .main-header li {
-    width:auto;
-  }
-
   .main-header a {
-    font-size: 1.5em;
+    font-size: 1.2em;
   }
 
-  .main-header.nav{
-    width: 20px;
-  }
+/* Layout */
 
-  .flex-container.main-header,
-  .flex-container.nav,
-  .flex-container.filters {
+  .main-header,
+  .nav
+  /*.flex-container.filters*/
+  {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
     align-items: center;
+
+    align-content: space-between;
+  }
+
+  .filters {
+    flex-direction: column;
+    justify-content: flex-end;
+    order: 5;
   }
 
 
-  .filters select {
-    width: 250px;
-    align-self: flex-end;
-  }
-
+  /*.filters {
+    width: 700px;
+  }*/
 
 
 
