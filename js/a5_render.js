@@ -13,18 +13,18 @@ $(function() {
   function render() {
 
     var titleVal = textTitle.val(); //raw title markup
-
     var authorVal = textAuthor.val(); //raw author markup
     var urlVal = textUrl.val(); //raw URL markup
     var categoryVal = textCategory.val();//raw category markup
     var bodVal = textBody.val(); // Raw body markup
+    console.log(bodVal);
 
-    var t = marked(titleVal); //convert title markup to html
-    var m = marked(bodVal); // Convert body markup to html
-    var a = marked(authorVal); //convert author markup to html
-    var u = marked(urlVal); // Convert URL markup to html
-    var c = marked(categoryVal); //convert category markup to html
-    var allTheBlock = m + a + u + t + c;
+    var t = titleVal; //convert title markup to html
+    var b = marked(bodVal); // Convert body markup to html
+    var a = authorVal; //convert author markup to html
+    var u = urlVal; // Convert URL markup to html
+    var c = categoryVal; //convert category markup to html
+    var allTheBlock = b + a + u + t + c;
 
 
     pHrawOut.text(allTheBlock); // Render raw markup
@@ -32,7 +32,7 @@ $(function() {
 
     // Update JSON article
     mObj.title = t;
-    mObj.body = m;
+    mObj.body = b;
     mObj.author = a;
     mObj.authorURL = u;
     mObj.category = c;
