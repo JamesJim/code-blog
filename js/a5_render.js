@@ -4,11 +4,21 @@ $(function() {
   var textUrl = $('#textUrl');
   var textCategory = $('#textCategory');
   var textBody    = $('#textBody');
-
-  var pHrawOut = $('#pHrawOut');
+  var articleTemplate = $('#articleTemplate').html();
+  var liveRawHtmlOutput = $('#liveRawHtmlOutput');
   var pMarkOut = $('#pMarkOut');
   var pJson    = $('#pJson');
   var mObj = {}; // Empty object, filled in to during JSON string update
+
+
+  var renderer = Handlebars.compile(articleTemplate);
+
+
+
+
+
+
+
 
   function render() {
 
@@ -27,7 +37,7 @@ $(function() {
     var allTheBlock = b + a + u + t + c;
 
 
-    pHrawOut.text(allTheBlock); // Render raw markup
+    liveRawHtmlOutput.text(allTheBlock); // Render raw markup
     pMarkOut.html(allTheBlock); // Render article preview (rendered as HTML)
 
     // Update JSON article
@@ -41,6 +51,11 @@ $(function() {
 
     console.log(mObj.body);
     var jsonStr = pJson.text(JSON.stringify(mObj));
+    var secretData = jsonStr;
+    var compiledHtml = renderer({secretData});
+    $('#liveRawHtmlOutput').html(compiledHtml);
+
+
   }
 
   // Any character change (article editing) updates the live output paragraphs
