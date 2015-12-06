@@ -2,10 +2,10 @@ $(function() {
   var textTitle = $('#textTitle');
   var textAuthor = $('#textAuthor');
   var textUrl = $('#textUrl');
-  // var textCategory = $('#textCategory');
+  var textCategory = $('#textCategory');
   var textBody    = $('#textBody');
-  // var articleTemplate = $('#articleTemplate').html();
-  //var liveRawHtmlOutput = $('#liveRawHtmlOutput');
+  var articleTemplate = $('#articleTemplate').html();
+  var liveRawHtmlOutput = $('#liveRawHtmlOutput');
   var pMarkOut = $('#pMarkOut');
   var pJson    = $('#pJson');
   var mObj = {}; // Empty object, filled in to during JSON string update
@@ -24,7 +24,7 @@ $(function() {
     var titleVal = textTitle.val(); //raw title markup
     var authorVal = textAuthor.val(); //raw author markup
     var urlVal = textUrl.val(); //raw URL markup
-    // var categoryVal = textCategory.val();//raw category markup
+    var categoryVal = textCategory.val();//raw category markup
     var bodVal = textBody.val(); // Raw body markup
     console.log(bodVal);
 
@@ -32,14 +32,13 @@ $(function() {
     var b = marked(bodVal); // Convert body markup to html
     var a = authorVal; //convert author markup to html
     var u = urlVal; // Convert URL markup to html
-    // var c = categoryVal; //convert category markup to html
-    var allTheBlock = b + a + u + t ;
-
-    // t + c
+    var c = categoryVal; //convert category markup to html
+    var allTheBlock = t + a + u + c + b;
 
 
-    // liveRawHtmlOutput.text(allTheBlock); // Render raw markup
-    //pMarkOut.html(allTheBlock); // Render article preview (rendered as HTML)
+
+    liveRawHtmlOutput.text(allTheBlock); // Render raw markup
+    pMarkOut.html(allTheBlock); // Render article preview (rendered as HTML)
 
     // Update JSON article
     mObj.title = t;
@@ -48,7 +47,7 @@ $(function() {
     mObj.publishedOn = "2015-12-31";
     mObj.author = a;
     mObj.authorURL = u;
-    // mObj.category = c;
+    mObj.category = c;
 
     var secretData = {};
     count++;
@@ -70,11 +69,11 @@ $(function() {
   }
 
   // Any character change (article editing) updates the live output paragraphs
-  // textTitle.on('input', render);
+  textTitle.on('input', render);
   textBody.on('input', render);
   textAuthor.on('input', render);
   textUrl.on('input', render);
-  // textCategory.on('input', render);
+  textCategory.on('input', render);
 
   var count = 0;
   render(); // Render once on doc load
