@@ -122,6 +122,17 @@ a:hover {
   border-radius: 5px;
 }
 
+.h1Secret {
+  margin:0;
+  font-size: 1em;
+  color: #000;
+}
+
+.headerSecret {
+  font-size: 1em;
+  margin: 2px;
+}
+
 /*********** Layout ************/
 
 /* For mobile screens */
@@ -139,6 +150,50 @@ a:hover {
 
 .flex-item {
   flex: 1;
+  align-items: center;
+}
+
+.input {
+  margin: 0;
+  padding: 0;
+  width: 80%;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-width: 200px;
+  margin: 0 auto;
+}
+
+.outputContainer {
+margin: 0;
+padding: 0;
+}
+
+.divBlock {
+  margin: 0 auto;
+  min-width: 300px;
+}
+
+.output {
+  border: solid thin #000;
+  height: 100px;
+  overflow: auto;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.markdownDiv {
+text-align: center;
+margin: 0 auto;
+
+
+
+
+  width: 90%;
 }
 
 

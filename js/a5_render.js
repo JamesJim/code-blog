@@ -1,8 +1,9 @@
 $(function() {
   var textTitle = $('#textTitle');
+  var textCategory = $('#textCategory');
   var textAuthor = $('#textAuthor');
   var textUrl = $('#textUrl');
-  var textCategory = $('#textCategory');
+  var textPublishedOn = $('#textPublishedOn')
   var textBody    = $('#textBody');
   var articleTemplate = $('#articleTemplate').html();
   var liveRawHtmlOutput = $('#liveRawHtmlOutput');
@@ -10,59 +11,63 @@ $(function() {
   var pJson    = $('#pJson');
   var mObj = {}; // Empty object, filled in to during JSON string update
 
-
-
-
-
-
-
-
-
-
   function render() {
 
-    var titleVal = textTitle.val(); //raw title markup
-    var authorVal = textAuthor.val(); //raw author markup
-    var urlVal = textUrl.val(); //raw URL markup
-    var categoryVal = textCategory.val();//raw category markup
-    var bodVal = textBody.val(); // Raw body markup
-    console.log(bodVal);
+    //Collect text from inputs
+    var titleVal = textTitle.val();
+    var categoryVal = textCategory.val();
+    var authorVal = textAuthor.val();
+    var urlVal = textUrl.val();
+    var publishedOnVal = textPublishedOn.val();
+    var bodVal = textBody.val();
 
-    var t = titleVal; //convert title markup to html
-    var b = marked(bodVal); // Convert body markup to html
-    var a = authorVal; //convert author markup to html
-    var u = urlVal; // Convert URL markup to html
-    var c = categoryVal; //convert category markup to html
-    var allTheBlock = t + a + u + c + b;
+    //Prepare all inputs for JSON (use 'marked' for body since we want tags)
+    var t = titleVal;
+    var c = categoryVal;
+    var a = authorVal;
+    var u = urlVal;
+    var p = publishedOnVal;
+    var b = marked(bodVal);
 
-
-
-    liveRawHtmlOutput.text(allTheBlock); // Render raw markup
-    pMarkOut.html(allTheBlock); // Render article preview (rendered as HTML)
-
-    // Update JSON article
+    // Update JSON object while values are not marked up (except body since we want tags)
     mObj.title = t;
-    mObj.body = b;
-    mObj.category = "pets";
-    mObj.publishedOn = "2015-12-31";
+    mObj.category = c;
     mObj.author = a;
     mObj.authorURL = u;
-    mObj.category = c;
+    mObj.publishedOn = p;
+    mObj.body = b;
+
+    //stringify JSON and set text value of pJson jQuery object
+    pJson.text(JSON.stringify(mObj));
+
+
+    //Use 'marked' on the rest of the items to prepare for raw HTML output
+    //since we want to show tags
+    var t = marked(titleVal);
+    var c = marked(categoryVal);
+    var a = marked(authorVal);
+    var u = marked(urlVal);
+    var p = marked(publishedOnVal);
+
+    //Combine all inputs into one to send to raw HTML output
+    var allTheBlock = t + c + a + u + p + b;
+
+    //Output to raw HTML output
+    liveRawHtmlOutput.text(allTheBlock);
+
+
 
     var secretData = {};
-    count++;
-    console.log(count);
-
-    console.log(mObj);
-    var jsonStr = pJson.text(JSON.stringify(mObj));
-    var articleTemplate = $('#articleTemplate').html();
-
     var secretData = mObj;
-    var renderer = Handlebars.compile(articleTemplate);
-    console.log();
 
+    //Use our created object to fill template using Handlebars and ultimately send to markdown preview
+    //Select template HTML
+    var articleTemplate = $('#articleTemplate').html();
+    //Use the 'Handlebars.compile() method'
+    var renderer = Handlebars.compile(articleTemplate);
+    //Compile data from object and html template
     var compiledHtml = renderer(mObj);
-    console.log(compiledHtml);
+    //Send compiled data in html template to the markdown output div
     $('#pMarkOut').html(compiledHtml);
 
 
