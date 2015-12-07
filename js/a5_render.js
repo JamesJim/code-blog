@@ -3,7 +3,7 @@ $(function() {
   var textCategory = $('#textCategory');
   var textAuthor = $('#textAuthor');
   var textUrl = $('#textUrl');
-  var textPublishedOn = $('#textPublishedOn')
+  var textPublishedOn = $('#textPublishedOn');
   var textBody    = $('#textBody');
   var articleTemplate = $('#articleTemplate').html();
   var liveRawHtmlOutput = $('#liveRawHtmlOutput');

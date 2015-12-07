@@ -32,7 +32,6 @@ h3 {
 
 p {
   font-size: 1em;
-  text-align: justify;
   margin-top: 15px;
 }
 
@@ -59,6 +58,7 @@ select {
   background-color: #fff;
   margin-bottom: 2px;
 }
+
 
 img {
   display: block;
@@ -168,31 +168,30 @@ a:hover {
 }
 
 .outputContainer {
-margin: 0;
+margin: 0 auto;
 padding: 0;
+width: 90%;
+
 }
 
 .divBlock {
   margin: 0 auto;
+  padding: 0;
   min-width: 300px;
 }
 
 .output {
+  display: inline-block;
   border: solid thin #000;
-  height: 100px;
+  height: 150px;
   overflow: auto;
-  max-width: 90%;
-  margin: 0 auto;
-  padding: 0;
+  max-width: 80%;
+
 }
 
 .markdownDiv {
-text-align: center;
-margin: 0 auto;
-
-
-
-
+  text-align: center;
+  margin: 0 auto;
   width: 90%;
 }
 
@@ -234,6 +233,10 @@ margin: 0 auto;
     flex-direction: column;
     justify-content: flex-end;
     order: 5;
+  }
+
+  .divBlock p {
+    margin: 0 auto;
   }
 
 
