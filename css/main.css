@@ -139,7 +139,6 @@ a:hover {
 }
 
 
-
 @media (min-width: 600px){
 
   .main-header h1 {
@@ -176,6 +175,15 @@ a:hover {
     width: 250px;
     align-self: flex-end;
   }
+
+
+
+/**/
+.secret
+
+
+
+
 
 
 
@@ -270,8 +278,5 @@ a:hover {
 .article-body p {
   width: 30%;
 }
-
-
-
 
 }*/
