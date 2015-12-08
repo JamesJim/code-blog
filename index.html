@@ -35,7 +35,7 @@
     <p>
       Oh, Hey There!  This page was built using CSS Flexbox for styling!
     </p>
-    <iframe src="//giphy.com/embed/H2dmCtNyFoJZS" width="480" height="266" frameborder="0" class="giphy-embed" allowfullscreen></iframe><p><a href="http://giphy.com/gifs/row-ups-H2dmCtNyFoJZS">via GIPHY</a></p>
+    <!-- <iframe src="//giphy.com/embed/H2dmCtNyFoJZS" width="480" height="266" frameborder="0" class="giphy-embed" allowfullscreen></iframe><p><a href="http://giphy.com/gifs/row-ups-H2dmCtNyFoJZS">via GIPHY</a></p> -->
     <p>
       This page brought to you by: JamesJim
     </p>
@@ -70,27 +70,10 @@
     <span>&copy;2015 My Blog!</span>
   </footer>
 
-  <script id="articleTemplate" type="text/x-handlebars-template">
-      {{#each data}}
-      <article class="arTemplate flex-container">
-        <section id="content-header" class="article-header flex-container flex-item">
-          <h1 class="title flex-item">{{title}}</h1>
-          <h3 class="author flex-item">Author: <a class="authorUrl" href="{{authorUrl}}">{{author}}</a></h3>
-          <h3 class="category flex-item">Category: {{category}}</h3>
-          <h3 class="date flex-item"><time pubdate datetime="{{publishedOn}}">{{publishedOn}}</time></h3>
-        </section>
-        <section class="article-body flex-container flex-item">{{{body}}}</section>
-        <section id="expand-article flex-item">
-          <button class="expand-button" type="button">Show Full Post</button>
-        </section>
-      </article>
-      {{/each}}
-  </script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/handlebarsjs/4.0.5/handlebars.min.js"></script>
   <script src="js/blog.js" type="text/javascript"></script>
   <script src="js/blogArticles.js" type="text/javascript"></script>
-  <script src="https://cdn.jsdelivr.net/handlebarsjs/4.0.5/handlebars.min.js"></script>
   <script src="js/app.js" type="text/javascript"></script>
 </body>
 </html>

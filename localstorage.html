@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"></meta>
+  <title>Local Storage Demo</title>
+  <link rel="stylesheet" href="theme.css">
+</head>
+​
+<body>
+  <h1>Local Storage Demo</h1>
+​
+  <div id="buttonContainer">
+    <div id="buttonClear">Clear</div>
+    <div id="buttonReset">Reset</div>
+  </div>
+​
+  <p>&quot;Clear&quot; button: calls localStorage.clear() and reload this page;</p>
+  <div>&quot;Reset&quot; button: calls custom code that resets app-specific values in localStorage to &quot;reset&quot; values.</div>
+​
+  <p id="pLog"></p>
+​
+  <script src="jquery-2.1.4.min.js"></script>
+  <script src="localStor.js"></script>
+</body>
+</html>

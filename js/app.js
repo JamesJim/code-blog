@@ -1,38 +1,22 @@
-/*********** Class-01 Branch ************/
+//document.ready
+$(function() {
 
+  function handlebarsOutput(){
+  $.get('template.handlebars', function(template){
+    //grab the template script by using the ID attribute
+    console.log(template);
+    //compile the template
+    var renderer = Handlebars.compile(template); //this is a string
+    //save our data array in a variable so that we can make it an object
+    var data = blog.rawData;
+    //pass data to the template
+    var compiledHtml = renderer({data});
+    //add compiled html to DOM by inserting an id attribute in an element
+    $('#handlebarsOutput').html(compiledHtml);
+  });
+};
 
-//Constructor function for articles
-  function makeArticle(obj){
-    this.title = obj.title;
-    this.category = obj.category;
-    this.author = obj.author;
-    this.authorUrl = obj.authorUrl;
-    this.publishedOn = obj.publishedOn;
-    this.body = obj.body;
-  }
-
-
-// Prototype function to insert blog info into DOM
-  // makeArticle.prototype.toHtml = function() {
-  //   var $newAr = $('.arTemplate').clone();
-  //   $newAr.removeClass('arTemplate');
-  //   $newAr.find('h1.title').html(this.title);
-  //   $newAr.find('a.authorUrl').before('Author: ');
-  //   $newAr.find('a.authorUrl').html(this.author);
-  //   $newAr.find('a.authorUrl').attr('href', this.authorUrl);
-  //   $newAr.find('h3.category').html('Category: '+this.category);
-  //   $newAr.find('h3.date').html('Posted ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
-  //   $newAr.find('section.article-body').html(this.body).children().not(':lt(3)').hide();
-  //   $newAr.find('#expand-article').html('<button class=\'expand-button\' type=\'button\'>Show Full Post</button>');
-  //   $newAr.append('<hr>');
-  //   return $newAr;
-  // };
-
-
-
-  //function to sort raw data
-  $(function() {
-
+handlebarsOutput();
 
 
     function sortByDate(A) {
@@ -55,23 +39,40 @@
     // $('.article-header:lt(1)').hide();
   });
 
-/******************Class-04 Handlebars*********************/
+
 $(function() {
 
-  //grab the template script by using the ID attribut
-  var articleTemplate = $('#articleTemplate').html();
+//Check local storage to see if anything is there
+var doesEtagExist = parseFloat(localStorage.ergodicEtag);
+console.log(doesEtagExist);
+//If an Etag is present, check for
+  if(doesEtagExist){
+    $.ajax({
+      type: "HEAD", //Just checks head for data - use GET if want to get data
+      url: "js/blogArticles.json",
+      success: function(data, status, xhr){ //function must take all 3 parameters
+        eTag = xhr.getResponseHeader('eTag'); //if successful, returns xhr
+        console.log(eTag);
 
-  //compile the template
-  var renderer = Handlebars.compile(articleTemplate);
+        //Save eTag as local storage
+        localStorage.setItem('ergodicEtag', eTag);
+        console.log(localStorage.ergodicEtag);
+      }
+    });
 
-  //save our data array in a variable so that we can make it an object
-  var data = blog.rawData;
+  } else {
 
-  //pass data to the template
-  var compiledHtml = renderer({data});
 
-  //add compiled html to DOM by inserting an id attribute in an element
-  $('#handlebarsOutput').html(compiledHtml);
+  }
+
+
+
+
+
+
+
+
+
 
 
 $('.date').find('time').each( function(){
@@ -206,7 +207,6 @@ $('section.article-body').each( function(){
         $(this).parent().prev().children().hide(':gt(2)');
       }
     });
-
 
 
 

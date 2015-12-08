@@ -1,3 +1,5 @@
+//This page is for the blog input html page
+
 $(function() {
   var textTitle = $('#textTitle');
   var textCategory = $('#textCategory');
@@ -70,6 +72,9 @@ $(function() {
     //Send compiled data in html template to the markdown output div
     $('#pMarkOut').html(compiledHtml);
 
+    $livePreview.find('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
 
   }
 
