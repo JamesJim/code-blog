@@ -1,17 +1,26 @@
 //This page is for the blog input html page
 
 $(function() {
+
+  //This section is for when the admin types in markdown and we want to
+  //convert the markdown to raw html, a JSON object, and a live preview
+  //of the page
+
+  //Set template jQuery objects
   var textTitle = $('#textTitle');
   var textCategory = $('#textCategory');
   var textAuthor = $('#textAuthor');
   var textUrl = $('#textUrl');
   var textPublishedOn = $('#textPublishedOn');
   var textBody    = $('#textBody');
-  var articleTemplate = $('#articleTemplate').html();
-  var liveRawHtmlOutput = $('#liveRawHtmlOutput');
-  var pMarkOut = $('#pMarkOut');
-  var pJson    = $('#pJson');
-  var mObj = {}; // Empty object, filled in to during JSON string update
+
+  //Set admin page output div jQuery objects
+  var liveRawHtmlOutput = $('#liveRawHtmlOutput'); //output to admin page raw html div
+  var pMarkOut = $('#pMarkOut'); //output to admin page live preview div
+  var pJson    = $('#pJson'); //output to admin page JSON div
+
+  //Create empty object to store
+  var articlesObject = {}; // Empty object, filled in to during JSON string update
 
   function render() {
 
@@ -31,16 +40,17 @@ $(function() {
     var p = publishedOnVal;
     var b = marked(bodVal);
 
-    // Update JSON object while values are not marked up (except body since we want tags)
-    mObj.title = t;
-    mObj.category = c;
-    mObj.author = a;
-    mObj.authorURL = u;
-    mObj.publishedOn = p;
-    mObj.body = b;
+    // Use data in current form to update JSON object while values are not marked up (except body since we want tags)
+    articlesObject.title = t;
+    articlesObject.category = c;
+    articlesObject.author = a;
+    articlesObject.authorURL = u;
+    articlesObject.publishedOn = p;
+    articlesObject.body = b;
 
-    //stringify JSON and set text value of pJson jQuery object
-    pJson.text(JSON.stringify(mObj));
+    //Make object a JSON object by stringifying it
+    //At the same time, set the value of our admin page jQuery div to this JSON object
+    pJson.text(JSON.stringify(articlesObject));
 
 
     //Use 'marked' on the rest of the items to prepare for raw HTML output
@@ -54,27 +64,24 @@ $(function() {
     //Combine all inputs into one to send to raw HTML output
     var allTheBlock = t + c + a + u + p + b;
 
-    //Output to raw HTML output
+    //Output to admin page raw HTML output div
     liveRawHtmlOutput.text(allTheBlock);
 
 
+    //"Get" handlebars template from file, compile response with data,
+    //send to admin page markdown preview
+    $.get('template.handlebars', function(template){
+      //Use the 'Handlebars.compile() method'
+      var renderer = Handlebars.compile(template);
+      //Compile data from object and html template
+      var compiledHtml = renderer(articlesObject);
+      //Send compiled data in html template to the markdown output div
+      $('#pMarkOut').html(compiledHtml);
+    }); //end $.get response function
 
-    var secretData = {};
-    var secretData = mObj;
-
-    //Use our created object to fill template using Handlebars and ultimately send to markdown preview
-    //Select template HTML
-    var articleTemplate = $('#articleTemplate').html();
-    //Use the 'Handlebars.compile() method'
-    var renderer = Handlebars.compile(articleTemplate);
-    //Compile data from object and html template
-    var compiledHtml = renderer(mObj);
-    //Send compiled data in html template to the markdown output div
-    $('#pMarkOut').html(compiledHtml);
-
-    $livePreview.find('pre code').each(function(i, block) {
-      hljs.highlightBlock(block);
-    });
+    // $livePreview.find('pre code').each(function(i, block) {
+    //   hljs.highlightBlock(block);
+    // });
 
   }
 
@@ -85,6 +92,5 @@ $(function() {
   textUrl.on('input', render);
   textCategory.on('input', render);
 
-  var count = 0;
   render(); // Render once on doc load
 });
