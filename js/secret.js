@@ -48,6 +48,8 @@ $(function() {
     articlesObject.publishedOn = p;
     articlesObject.body = b;
 
+    console.log(articlesObject);
+
     //Make object a JSON object by stringifying it
     //At the same time, set the value of our admin page jQuery div to this JSON object
     pJson.text(JSON.stringify(articlesObject));
@@ -70,12 +72,14 @@ $(function() {
 
     //"Get" handlebars template from file, compile response with data,
     //send to admin page markdown preview
-    $.get('template.handlebars', function(template){
+    $.get('handlebarstemplate.html', function(template){
       //Use the 'Handlebars.compile() method'
       var compiler = Handlebars.compile(template);
 
       //Compile data from object and html template
-      var compiledHtml = compilerer(articlesObject);
+      var compiledHtml = compiler(articlesObject);
+      console.log(compiledHtml);
+
       //Send compiled data in html template to the markdown output div
       $('#pMarkOut').html(compiledHtml);
     }); //end $.get response function

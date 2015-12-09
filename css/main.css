@@ -3,12 +3,17 @@
 
 body {
   box-sizing: border-box;
-  text-align: center;
+
   font: helvetica, sans-serif;
   font-weight: bold;
   color: black;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  min-height: 800px;
 
 }
 
@@ -60,6 +65,10 @@ select {
   margin-bottom: 2px;
 }
 
+button {
+  margin: 0 auto;
+}
+
 
 img {
   display: block;
@@ -72,6 +81,12 @@ img {
 
 .main-header {
   background: #00cc66;
+  align-items: center;
+  order: -10;
+}
+
+.main-header h1 {
+
 }
 
 .main-header a {
@@ -82,18 +97,25 @@ img {
 }
 
 .filters {
-  width: 64%;
+  width: 98%;
+}
+
+.main-content {
+  text-align: center;
+  order: 1;
 }
 
 .article-header {
   background: #0099cc;
   margin-top: 5px;
   border: solid #003399;
+  text-align: center;
 }
 
 .article-body {
   margin-top: 5px;
   padding: 0 15px;
+  text-align: center;
 }
 
 .footer {
@@ -103,10 +125,12 @@ img {
   background: lightgray;
   margin: 0;
   padding: 0;
+  order: 100;
 }
 
 .footer span {
   align-self: center;
+  order: 99;
 }
 
 #about-hide {
@@ -142,6 +166,12 @@ a:hover {
   display: flex;
   flex-direction: column;
   border-radius: 5px;
+  justify-content: center;
+}
+
+.main-header {
+  justify-content: center;
+  height: 200px;
 }
 
 .filters {
@@ -151,8 +181,8 @@ a:hover {
 
 .flex-item {
   flex: 1;
-  align-items: center;
 }
+
 
 .input {
   margin: 0;
@@ -169,11 +199,16 @@ a:hover {
 }
 
 .outputContainer {
-margin: 0 auto;
-padding: 0;
-width: 90%;
-display: block;
-clear: left;
+  padding: 0;
+  width: 95%;
+}
+
+.output {
+  border: solid thin #000;
+  height: 150px;
+  overflow: auto;
+  max-width: 95%;
+
 }
 
 .divBlock {
@@ -182,20 +217,16 @@ clear: left;
   min-width: 300px;
 }
 
-.output {
-  display: inline-block;
-  border: solid thin #000;
-  height: 150px;
-  overflow: auto;
-  max-width: 80%;
-
+.divBlock p {
+  margin: 0 auto;
 }
 
-.markdownDiv {
+/*.markdownDiv {
+  display: block;
   text-align: center;
   margin: 0 auto;
   width: 90%;
-}
+}*/
 
 
 @media (min-width: 600px){
@@ -206,8 +237,13 @@ clear: left;
   max-height: 350px;
   }
 
+  .main-header {
+    height: 100px;
+  }
+
   .main-header h1 {
-  font-size: 2.5em;
+  font-size: 3em;
+  margin-left: 5px;
   }
 
   .main-header h2 {
@@ -227,119 +263,17 @@ clear: left;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-
     align-content: space-between;
   }
 
   .filters {
-    flex-direction: column;
-    justify-content: flex-end;
-    order: 5;
-  }
-
-  .divBlock p {
+    height: 30px;
+    flex-direction: row;
+    align-self:flex-end;
+    justify-content: center;
     margin: 0 auto;
   }
 
-
-  /*.filters {
-    width: 700px;
-  }*/
-
-
-/**/
-.secret
-
-
-
-
-
-
-
-
-
-  /*.main-header,
-  .article-header,
-  .nav {
-    display: flex;
-    align-items: center;
-  }
-
-  .main-header {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    order: -1;
-    margin-bottom: 15px;
-  }
-
-  .title {
-    margin-left: 0;
-  }
-
-  .main-header p {
-    align-self: center;
-    font-size: 1.8em;
-
-  }
-
-  .main-header h1 {
-    font-size: 3em;
-  }
-
-  .main-header ul {
-    display: flex;
-    flex-direction: row;
-    padding: 0;
-    margin: 5px;
-  }
-
-  .nav li {
-    flex-direction: row;
-    justify-content: space-between;
-    align-self: center;
-    margin: 4px;
-    padding: 0;
-  }
-
-  .filters {
-    align-self: flex-end;
-    width: 99%;
-    margin: 0 auto;
-  }
-
-
-
-  .article-header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .article-body {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: space-around;
-  }
-
-  .article-body p {
-
-    width: 45%;
-    font-size: 1em;
-    text-align: center;
-    margin-bottom: 60px;
-    column-count: 2;
-    border: solid #003399;
-    padding: 5px;
-  }
-
-  .about p {
-    font-size: 1.5em;
-    margin: 20px;
-  }*/
 
 } /*End media query for screen min 769px*/
 

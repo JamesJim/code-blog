@@ -23,7 +23,7 @@ $(function(){
 
   function handlebarsOutput(object){
     //Handlebars now gets it's shape from the template.handlebars file
-    $.get('template.handlebars', function(template){
+    $.get('handlebarstemplate.html', function(template){
       //compile the template
       var compiler = Handlebars.compile(template); //this is a string
       //save our data array in a variable so that we can make it an object
@@ -90,15 +90,12 @@ $(function(){
       printToSelect(uniqueAuthors, '#author-filter');
 
 
-      console.log(uniqueCategories.length);
-      console.log(uniqueAuthors.length);
-
-
-
       //sort by date Function
       sortByDate(data);
       console.log(data[0])
       //compile data and template
+
+
       var compiledHtml = compiler({data});
       //add compiled html to DOM by inserting an id attribute in an element
       $('#handlebarsOutput').html(compiledHtml);
