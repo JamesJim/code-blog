@@ -1,6 +1,8 @@
 //document.ready
 $(function(){
 
+  var blogArticles = $.getJSON()
+
   function sortByDate(A) {
     A.sort(
      function(a, b) {
@@ -8,118 +10,93 @@ $(function(){
        if (a.publishedOn > b.publishedOn) { return -1; }
        return 0;
      }
-   );
-  }
-  sortByDate(blog.rawData);
+   );//end sort
+ }//end dort by Date function
 
 
-  function handlebarsOutput(){
+
+  function handlebarsOutput(object){
     //Handlebars now gets it's shape from the template.handlebars file
     $.get('template.handlebars', function(template){
-
       //compile the template
-      var renderer = Handlebars.compile(template); //this is a string
+      var compiler = Handlebars.compile(template); //this is a string
       //save our data array in a variable so that we can make it an object
-      var data = blog.rawData;                  /*blog.rawData*/;
-      //pass data to the template
-      var compiledHtml = renderer({data});
+      var data = object;
+      //sort by date Function
+      sortByDate(data);
+      //compile data and template
+      var compiledHtml = compiler({data});
       //add compiled html to DOM by inserting an id attribute in an element
       $('#handlebarsOutput').html(compiledHtml);
+
+    }); //end '.get' statement
+  }; //end handlebars output statement
+
+
+
+    var blogArticles = $.getJSON('js/blogArticles.json', function(data){
+      blogArticles = data;
     });
-  };
+    console.log(blogArticles);
 
-  handlebarsOutput();
+    function loadFromJson(eTag){
+      //Set eTag since user local storage is not up to date
+      localStorage.setItem('eTag', eTag);
+      console.log('loadFromJson set local eTag: ' + localStorage.eTag);
 
+      //Load articles from server and set data to local storage
+      $.getJSON('js/blogArticles.json', function(data){
+        localStorage.setItem('blogArticles', JSON.stringify(data));
 
-
-
-  $(function() {
-
-  //This section gets and sets local Storage
-  //Check local storage for prior eTag
-    //If no eTag, load data from server and set local storage eTag and data
-    //If eTag, compare to server remote from AJAX call
-
-  var eTagLocalStorage;
-
-  //Check local storage for an eTag that would have been set prior
-  function eTagCheckLocalStorage(){
-    eTagLocalStorage = localStorage.getItem('eTagLocal', eTagLocal);
-    console.log(eTagLocalStorage);
-  }
-  eTagCheckLocalStorage();
-
-  //Used to set local storage eTag to what remote eTag was when they're not in sync
-  function eTagSetLocalStorage(){
-    localStorage.setItem('eTagLocal', eTag)
-  }
-
-  //AJAX call to remote server to get the eTag - SLOW PROCESS!
-  function eTagGetFromServer(){
-    $.ajax({
-      type: "HEAD", //Just checks head for data - use GET if want to get data
-      url: "js/blogArticles.json",
-      success: function(data, status, xhr){ //function must take all 3 parameters
-        eTag = xhr.getResponseHeader('eTag'); //if successful, returns xhr
-        console.log("Server eTag: " + eTag);
-      } //end success response Function
-    }); //end ajax call
-  } //end eTagGetFromServer Function
-  eTagGetFromServer();
-
-  function
-  //save remote server eTag to localStorage prior to comparison
-  // localStorage.setItem('remoteEtag', remoteEtag);
-  // console.log(localStorage.remoteEtag);
-
-//If there is a localStorage eTag, use AJAX to obtain eTag from remote server
-
-  //
-  //     //Compare remote and local eTags
-  //     if(localStorage.setItem === doesEtagExist){
-  //       //if eTags match, user's localStorage is up to date, render from local cache
-  //       var toRender = JSON.parse(localStorage.getItem(blogArticles));
-  //       //Then call handlebars?
-  //       handlebars(toRender);
-  //
-  //     } else{
-  //       //eTags do not match, remote is newer so render from remote server and set localStorage
-  //       //Set local Storage
-  //       localStorage.setItem('blogArticles', JSON.stringify(blogArticles.json));
-  //
-  //       //render from remote server as usual by calling function that outputs handlebars
-  //       handlebars();
-  //
-  //
-  //     }
-  //
-  //
-  // }); //end ajax
-  //
-  // //If remote and local don't match, save remote's eTag as local storage
-  //
-  //
-  // //When loading from Remote Server because local was not up to date...set local storage item
-  // localStorage.setItem('blogArticles', JSON.stringify(blogArticles));
-  // console.log("Local Storage Data: "+ localStorage.data);
-  //
-  // //When loading from Remote Server because local was not up to date...get JSON from file
-  // $.getJSON('blogArticles.json').done( handlebarsOutput());
+        //run data through handlebars template
+        handlebarsOutput(data);
+        console.log("LOADED FROM JSON");
+      });
+    }//end loadFromJSON function
+// loadFromJson();
 
 
+    //THIS ONE WORKS!
+    function loadFromLocalStorage(){
+      cachedBlog= JSON.parse(localStorage.getItem('blogArticles'));
+      handlebarsOutput(cachedBlog);
+      console.log("LOADED FROM LOCAL");
+    };
+// loadFromLocalStorage();
 
 
-  }); //end document.ready
+    // var eTag;
+    //AJAX call to remote server to get the eTag - SLOW PROCESS!
+    function eTagGetFromServer(){
+      $.ajax({
+        type: "HEAD", //Just checks head for data - use GET if want to get data
+        url: "js/blogArticles.json",
+        success: function(data, status, xhr){ //function must take all 3 parameters
+          eTag = xhr.getResponseHeader('eTag'); //if successful, returns xhr
+          console.log("Server eTag: " + eTag);
+        } //end success response Function
+      }).done(function(){
+          console.log("Local Storage eTag:"+localStorage.getItem('eTag'));
+        if(localStorage.getItem('eTag')){
+          console.log("if local storage exists truthy")
+          if(localStorage.getItem('eTag') !== eTag){ //If tags don't match
+          //load JSON file from server
+          console.log('If eTags NOT EQUAL...LOAD FROM JSON');
+          loadFromJson(eTag);
+          }else{
+          //load from user local storage
+          console.log('If eTags ARE EQUAL...LOAD FROM LOCAL SERVER');
+          loadFromLocalStorage(eTag);
+          }
+        } else{
+          //if no eTag, load from JSON
+          console.log('No eTag found');
+          loadFromJson(eTag);
+        }
+        } //end of function inside of 'done'
+      )}; //end done method and end of eTagGetFromServer function
 
-
-
-
-
-
-
-
-
-
+eTagGetFromServer();
 
 
 
@@ -127,14 +104,15 @@ $(function(){
     var datePublished = $(this).text();
     var daysOld = 'Posted ' + parseInt((new Date() - new Date(datePublished))/60/60/24/1000) + ' days ago';
     $(this).text(daysOld);
-  });
+  }); //end date calculation function
 
+  //UPDATE THIS!!!  USED TO SELECT TEMPLATE ARTICLE BODY AND HIDE ALL BUT FIRST PARAGRAPH
   $('section.article-body').each( function(){
     $(this).children().not(':lt(1)').hide();
-  });
+  }); //end preview article function
 
 
-});
+
 
 
 
@@ -143,13 +121,18 @@ $(function(){
 
 
 /******************Filter arrays and return unique values***********************/
-  $(function() {
+
+
+
+
+
 
     //function to build array of all category names from blog.rawData
     function getCategoryFilterItems(){
       var tempFilterArray = [];
-      for(i=0; i<blog.rawData.length; i++){
-        tempFilterArray.push(blog.rawData[i].category);
+
+      for(i=0; i<cachedBlog.length; i++){
+        tempFilterArray.push(cachedBlog[i].category);
       }
       // console.log(tempFilterArray);
       return tempFilterArray;
@@ -169,9 +152,6 @@ $(function(){
     //Store returned array in a variable
     var authorStrings = getAuthorFilterItems();
 
-
-
-
     //Function to put all the unique items in an array
     function getUnique(inputArray){
 
@@ -184,22 +164,19 @@ $(function(){
         }
       }
       return outputArray;
-    }
+    } //end getUnique array function
+
     //Store returned unique arrays in a variable
     var uniqueCategories = getUnique(categoryStrings);
     var uniqueAuthors = getUnique(authorStrings);
 
-
-
-
-
-    //Functions to print unique arrays and option tags to the select tag
+    //load unique arrays into html select elements
     function printToSelect(array, elementId){
       for(i=0; i<array.length; i++){
         $(elementId).append('<option value=\''+array[i]+'\'>'+array[i]+'</option>');
         // console.log(array[i]);
       }
-    }
+    } //end printToSelect function
     printToSelect(uniqueCategories, '#category-filter');
     printToSelect(uniqueAuthors, '#author-filter');
 
@@ -223,10 +200,7 @@ $(function(){
         $('article').hide();
         $('.category:contains(\'' + $selection + '\')').parents('article').show(':lt(2)');
       }
-    });
-
-
-
+    }); //end hide/show of appropriate articles on change when using filters
 
 
     //When button clicked, toggle button text; toggle expand and retract
@@ -251,7 +225,7 @@ $(function(){
       if($(this).text() == 'Show Full Post') {
         $(this).parent().prev().children().hide(':gt(2)');
       }
-    });
+    }); //end expand button on click function
 
 
 
@@ -267,4 +241,4 @@ $(function(){
       $('#about-hide').css('display', 'none');
     });
 
-  });
+  }); //end document.ready

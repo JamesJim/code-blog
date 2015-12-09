@@ -40,7 +40,7 @@ $(function() {
     var p = publishedOnVal;
     var b = marked(bodVal);
 
-    // Use data in current form to update JSON object while values are not marked up (except body since we want tags)
+    // Pre-stringify - Fill empty JSON object while values are not marked up (except body since we want tags)
     articlesObject.title = t;
     articlesObject.category = c;
     articlesObject.author = a;
@@ -72,9 +72,10 @@ $(function() {
     //send to admin page markdown preview
     $.get('template.handlebars', function(template){
       //Use the 'Handlebars.compile() method'
-      var renderer = Handlebars.compile(template);
+      var compiler = Handlebars.compile(template);
+
       //Compile data from object and html template
-      var compiledHtml = renderer(articlesObject);
+      var compiledHtml = compilerer(articlesObject);
       //Send compiled data in html template to the markdown output div
       $('#pMarkOut').html(compiledHtml);
     }); //end $.get response function
@@ -83,7 +84,7 @@ $(function() {
     //   hljs.highlightBlock(block);
     // });
 
-  }
+  };
 
   // Any character change (article editing) updates the live output paragraphs
   textTitle.on('input', render);
