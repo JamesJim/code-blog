@@ -1,4 +1,4 @@
-{{#each data}}
+
     <article class="arTemplate flex-container">
       <section id="content-header" class="article-header flex-container flex-item">
         <h1 class="title flex-item">{{title}}</h1>
@@ -7,15 +7,13 @@
         <h3 class="date flex-item"><time pubdate datetime="{{publishedOn}}">{{publishedOn}}</time></h3>
       </section>
 
-      {{#if body}}
-        <section class="article-body flex-container flex-item">{{{body}}}</section>              {{/if}}
-              {{#if markdown}}
-                  <section class="article-body flex-container flex-item markdown">{{{markdown}}}</section>
-              {{/if}}
+
+        <section class="article-body flex-container flex-item">{{{body}}}</section>
+
+
 
 
       <section id="expand-article flex-item">
         <button class="expand-button" type="button">Show Full Post</button>
       </section>
     </article>
-{{/each}}

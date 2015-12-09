@@ -81,6 +81,11 @@ img {
 
 .bodySecret{
   text-align: center;
+  min-height: 1800px;
+}
+
+#pMarkOut {
+  text-align: center;
 }
 
 .main-header {

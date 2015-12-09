@@ -22,13 +22,37 @@ $(function(){
 
 
   function handlebarsOutput(object){
+
+/************ GET DATA & COMPILE **************/
+
+
+    var data = object;
+    console.log(data.length);
+
+    for(i=0; i<data.length; i++){
+      if(data[i].markdown){
+        data[i].markdown = marked(data[i].markdown);
+      }};
+
     //Handlebars now gets it's shape from the template.handlebars file
     $.get('handlebarstemplate.html', function(template){
+
+
+
       //compile the template
       var compiler = Handlebars.compile(template); //this is a string
       //save our data array in a variable so that we can make it an object
-      var data = object;
-      console.log(data.length);
+
+
+
+
+
+/*********** SORT DATA *****************/
+
+      //sort by date Function
+      sortByDate(data);
+
+/************ CREATE ARRAYS TO GET UNIQUE LISTS FOR FILTERS **********/
 
       //function to build array of all category names from blog.rawData
       function getCategoryFilterItems(){
@@ -78,7 +102,6 @@ $(function(){
 
       console.log(uniqueCategories);
 
-
       //load unique arrays into html select elements
       function printToSelect(array, elementId){
         for(i=0; i<array.length; i++){
@@ -90,16 +113,98 @@ $(function(){
       printToSelect(uniqueAuthors, '#author-filter');
 
 
-      //sort by date Function
-      sortByDate(data);
+
       console.log(data[0])
       //compile data and template
 
+
+/************* COMPILE TEMPLATE AND SORTED OBJECT *************/
 
       var compiledHtml = compiler({data});
       //add compiled html to DOM by inserting an id attribute in an element
       $('#handlebarsOutput').html(compiledHtml);
 
+
+
+      /********************EVENT LISTENERS******************************/
+      $('.article-body').find('p').not(':first').hide();
+
+      //On Author or Category select change, hide all divs, then show selected's preview
+      $('select').on('change', function (e) {
+
+        // console.log('this', this)
+        var $selection = $(this).val();
+        console.log('selection: '+ $selection);
+        if( ($selection == 'Filter by category') || ($selection == 'Filter by author')){
+          $('article').show();
+        } else if($(this).attr('id') == 'author-filter'){
+          // console.log($(this).attr('id'));
+          $('article').hide();
+          console.log($('.authorUrl:contains(\'' + $selection + '\')').parents('article'));
+          $('.authorUrl:contains(\'' + $selection + '\')').parents('article').show(':lt(2)');
+        } else {
+          $('article').hide();
+          $('.category:contains(\'' + $selection + '\')').parents('article').show(':lt(2)');
+        }
+      }); //end hide/show of appropriate articles on change when using filters
+
+
+      //When button clicked, toggle button text; toggle expand and retract
+      $('.expand-button').on('click', function(e){
+        var $this = $(this);
+        //Scroll to the top of the section when clicked
+        $('html, body').animate({ scrollTop: $this.parents('article').offset().top }, 100);
+        //Toggle the button text each time it's clicked
+        $this.text(function(i, text){
+          return text === 'I\'m Done!' ? 'Show Full Post' : 'I\'m Done!';
+        });
+
+        //Was trying to use the same toggle language but realized you can't 'hide' a 'show!'
+        $(this).parent().prev().children().show(function(i, show){
+          return show === ':gt(0)' ? ':lt(3)' : ':gt(0)';
+        });
+
+        //So then I tried to add language to say, when everything is shown (based on button text),
+        //hide all but first three paragraphs
+        if($(this).text() == 'Show Full Post') {
+          $(this).parent().prev().children().hide(':gt(2)');
+        }
+
+      }); //end expand button on click function
+
+
+
+      //Toggle class of About when link clicked
+      $('.about-link').on('click', function(e){
+        $('article').hide();
+        $('#about-hide').css('display', 'flex');
+      });
+
+      //Close about section
+      $('.about-button').on('click', function(e){
+        $('article').show(':lt(1)');
+        $('#about-hide').css('display', 'none');
+      });
+
+
+      $('.date').find('time').each( function(){
+        var datePublished = $(this).text();
+        var daysOld = 'Posted ' + parseInt((new Date() - new Date(datePublished))/60/60/24/1000) + ' days ago';
+        $(this).text(daysOld);
+      }); //end date calculation function
+
+
+      //UPDATE THIS!!!  USED TO SELECT TEMPLATE ARTICLE BODY AND HIDE ALL BUT FIRST PARAGRAPH
+      $('section.article-body').each( function(){
+        $(this).children().not(':lt(3)').hide();
+      }); //end preview article function
+
+
+      $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+      });
     }); //end '.get' statement
   }; //end handlebars output statement
 
@@ -169,94 +274,6 @@ eTagGetFromServer();
 
 
 
-  $('.date').find('time').each( function(){
-    var datePublished = $(this).text();
-    var daysOld = 'Posted ' + parseInt((new Date() - new Date(datePublished))/60/60/24/1000) + ' days ago';
-    $(this).text(daysOld);
-  }); //end date calculation function
 
-  //UPDATE THIS!!!  USED TO SELECT TEMPLATE ARTICLE BODY AND HIDE ALL BUT FIRST PARAGRAPH
-  $('section.article-body').each( function(){
-    $(this).children().not(':lt(1)').hide();
-  }); //end preview article function
-
-
-
-
-
-
-
-/*********** Class-02 Branch ************/
-
-
-/******************Filter arrays and return unique values***********************/
-
-
-
-
-
-
-
-
-
-    /********************EVENT LISTENERS******************************/
-
-    //On Author or Category select change, hide all divs, then show selected's preview
-    $('select').on('change', function (e) {
-      // console.log('event', e);
-      // console.log('this', this)
-      var $selection = $(this).val();
-      console.log($selection);
-      if( ($selection == 'Filter by category') || ($selection == 'Filter by author')){
-        $('article').show();
-      } else if($(this).attr('id') == 'author-filter'){
-        // console.log($(this).attr('id'));
-        $('article').hide();
-        console.log($('.authorUrl:contains(\'' + $selection + '\')').parents('article'));
-        $('.authorUrl:contains(\'' + $selection + '\')').parents('article').show(':lt(2)');
-      } else {
-        $('article').hide();
-        $('.category:contains(\'' + $selection + '\')').parents('article').show(':lt(2)');
-      }
-    }); //end hide/show of appropriate articles on change when using filters
-
-
-    //When button clicked, toggle button text; toggle expand and retract
-    $('.expand-button').on('click', function(e){
-      var $this = $(this);
-
-      //Scroll to the top of the section when clicked
-      $('html, body').animate({ scrollTop: $this.parents('article').offset().top }, 100);
-
-      //Toggle the button text each time it's clicked
-      $this.text(function(i, text){
-        return text === 'I\'m Done!' ? 'Show Full Post' : 'I\'m Done!';
-      });
-
-      //Was trying to use the same toggle language but realized you can't 'hide' a 'show!'
-      $(this).parent().prev().children().show(function(i, show){
-        return show === ':gt(0)' ? ':lt(3)' : ':gt(0)';
-      });
-
-      //So then I tried to add language to say, when everything is shown (based on button text),
-      //hide all but first three paragraphs
-      if($(this).text() == 'Show Full Post') {
-        $(this).parent().prev().children().hide(':gt(2)');
-      }
-    }); //end expand button on click function
-
-
-
-    //Toggle class of About when link clicked
-    $('.about-link').on('click', function(e){
-      $('article').hide();
-      $('#about-hide').css('display', 'flex');
-    });
-
-    //Close about section
-    $('.about-button').on('click', function(e){
-      $('article').show();
-      $('#about-hide').css('display', 'none');
-    });
 
   }); //end document.ready
