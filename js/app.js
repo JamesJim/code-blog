@@ -1,7 +1,13 @@
 //document.ready
 $(function(){
+  // function getAllArticles(){
+  //   $.getJSON('js/blogArticles.json', function(data){
+  //     blogArticles = JSON.parse(data);
+  //     console.log(blogArticles);
+  //   });
+  // }
+  // getAllArticles();
 
-  var blogArticles = $.getJSON()
 
   function sortByDate(A) {
     A.sort(
@@ -22,8 +28,76 @@ $(function(){
       var compiler = Handlebars.compile(template); //this is a string
       //save our data array in a variable so that we can make it an object
       var data = object;
+      console.log(data.length);
+
+      //function to build array of all category names from blog.rawData
+      function getCategoryFilterItems(){
+        var tempFilterArray = [];
+
+        for(i=0; i<data.length; i++){
+          tempFilterArray.push(data[i].category);
+
+        }
+        // console.log(tempFilterArray);
+        return tempFilterArray;
+      }
+      //Store returned array in a variable
+      var categoryStrings = getCategoryFilterItems();
+      console.log(categoryStrings);
+      console.log(categoryStrings.length);
+
+      //function to build array of all author names from blog.rawData
+      function getAuthorFilterItems(){
+        var tempFilterArray = [];
+        for(i=0; i<data.length; i++){
+          tempFilterArray.push(data[i].author);
+        }
+        // console.log(tempFilterArray);
+        return tempFilterArray;
+      }
+      //Store returned array in a variable
+      var authorStrings = getAuthorFilterItems();
+
+      //Function to put all the unique items in an array
+      function getUnique(inputArray){
+
+        var outputArray = [];
+
+        for (i=0; i < inputArray.length; i++){
+          //If inputArray item is not in outputArray, then push item to output array
+          if (($.inArray(inputArray[i], outputArray)) == -1){
+            outputArray.push(inputArray[i]);
+          }
+        }
+        return outputArray;
+      } //end getUnique array function
+
+      //Store returned unique arrays in a variable
+      var uniqueCategories = getUnique(categoryStrings);
+      var uniqueAuthors = getUnique(authorStrings);
+
+      console.log(uniqueCategories);
+
+
+      //load unique arrays into html select elements
+      function printToSelect(array, elementId){
+        for(i=0; i<array.length; i++){
+          $(elementId).append('<option value=\''+array[i]+'\'>'+array[i]+'</option>');
+          // console.log(array[i]);
+        }
+      } //end printToSelect function
+      printToSelect(uniqueCategories, '#category-filter');
+      printToSelect(uniqueAuthors, '#author-filter');
+
+
+      console.log(uniqueCategories.length);
+      console.log(uniqueAuthors.length);
+
+
+
       //sort by date Function
       sortByDate(data);
+      console.log(data[0])
       //compile data and template
       var compiledHtml = compiler({data});
       //add compiled html to DOM by inserting an id attribute in an element
@@ -32,12 +106,6 @@ $(function(){
     }); //end '.get' statement
   }; //end handlebars output statement
 
-
-
-    var blogArticles = $.getJSON('js/blogArticles.json', function(data){
-      blogArticles = data;
-    });
-    console.log(blogArticles);
 
     function loadFromJson(eTag){
       //Set eTag since user local storage is not up to date
@@ -53,15 +121,16 @@ $(function(){
         console.log("LOADED FROM JSON");
       });
     }//end loadFromJSON function
-// loadFromJson();
 
-
-    //THIS ONE WORKS!
+    var cachedBlog;
+    //load page from local storage when cache is up to date
     function loadFromLocalStorage(){
-      cachedBlog= JSON.parse(localStorage.getItem('blogArticles'));
+      cachedBlog = JSON.parse(localStorage.getItem('blogArticles'));
       handlebarsOutput(cachedBlog);
       console.log("LOADED FROM LOCAL");
+
     };
+    console.log("Access cachedBlog outside of fx: "+ cachedBlog);
 // loadFromLocalStorage();
 
 
@@ -76,6 +145,9 @@ $(function(){
           console.log("Server eTag: " + eTag);
         } //end success response Function
       }).done(function(){
+
+          // getBlogArticles();
+
           console.log("Local Storage eTag:"+localStorage.getItem('eTag'));
         if(localStorage.getItem('eTag')){
           console.log("if local storage exists truthy")
@@ -127,58 +199,7 @@ eTagGetFromServer();
 
 
 
-    //function to build array of all category names from blog.rawData
-    function getCategoryFilterItems(){
-      var tempFilterArray = [];
 
-      for(i=0; i<cachedBlog.length; i++){
-        tempFilterArray.push(cachedBlog[i].category);
-      }
-      // console.log(tempFilterArray);
-      return tempFilterArray;
-    }
-    //Store returned array in a variable
-    var categoryStrings = getCategoryFilterItems();
-
-    //function to build array of all author names from blog.rawData
-    function getAuthorFilterItems(){
-      var tempFilterArray = [];
-      for(i=0; i<blog.rawData.length; i++){
-        tempFilterArray.push(blog.rawData[i].author);
-      }
-      // console.log(tempFilterArray);
-      return tempFilterArray;
-    }
-    //Store returned array in a variable
-    var authorStrings = getAuthorFilterItems();
-
-    //Function to put all the unique items in an array
-    function getUnique(inputArray){
-
-      var outputArray = [];
-
-      for (i=0; i < inputArray.length; i++){
-        //If inputArray item is not in outputArray, then push item to output array
-        if (($.inArray(inputArray[i], outputArray)) == -1){
-          outputArray.push(inputArray[i]);
-        }
-      }
-      return outputArray;
-    } //end getUnique array function
-
-    //Store returned unique arrays in a variable
-    var uniqueCategories = getUnique(categoryStrings);
-    var uniqueAuthors = getUnique(authorStrings);
-
-    //load unique arrays into html select elements
-    function printToSelect(array, elementId){
-      for(i=0; i<array.length; i++){
-        $(elementId).append('<option value=\''+array[i]+'\'>'+array[i]+'</option>');
-        // console.log(array[i]);
-      }
-    } //end printToSelect function
-    printToSelect(uniqueCategories, '#category-filter');
-    printToSelect(uniqueAuthors, '#author-filter');
 
 
     /********************EVENT LISTENERS******************************/
