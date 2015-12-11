@@ -3,19 +3,27 @@
 
 function generateStats(data){
 
+  //raw data
   var blogArticles = data;
   console.log('Raw Data: ', blogArticles);
 
+
   /******* TOTAL NUMBER OF ARTICLES ******/
 
+  //get length of array
   function getNumArticles(array) {
     return array.length;
   } //end getNumArticles function
 
   var totalArticles = getNumArticles(blogArticles);
+
+  //Send to DOM element with ID
   $('#totalNumArticles').html(totalArticles);
   console.log('Total # Articles: ', totalArticles);
 
+  //Set local storage
+  localStorage.setItem('numArticles', totalArticles);
+  console.log('Set Local Storage - Total Number of Articles: ' + localStorage.numArticles);
 
 
   /******* TOTAL NUMBER OF DISTINCT AUTHORS ******/
@@ -23,6 +31,7 @@ function generateStats(data){
   //obtain an array of authors
   var authors = blogArticles.map(getAuthors);
 
+  //In object, return each value of object key 'author'
   function getAuthors(obj) {
     return obj.author;
   } //end getAuthors function
@@ -31,10 +40,15 @@ function generateStats(data){
   //get distinct authors from array of authors
   var distinctAuthors = authors.filter(getDistinctAuthors);
 
+  //pushes each value to new array only once, leaves out repeats
   function getDistinctAuthors(v, i) {
     return authors.indexOf(v) == i;
   }; //end GetDistinctAuthors function
   console.log('Distinct Authors: ', distinctAuthors);
+
+  //Set local storage
+  localStorage.setItem('distinctAuthors', distinctAuthors);
+  console.log('Set Local Storage - Distinct Authors: ' + localStorage.distinctAuthors);
 
 
 
@@ -52,40 +66,47 @@ function generateStats(data){
 
   //get # of distinct authors from array of distinct authors
   var numDistinctAuthors = distinctAuthors.length;
+
+  //print to DOM element with ID
   $('#totalNumDistinctAuthors').html(numDistinctAuthors);
   console.log('Number of Distinct Authors: ', numDistinctAuthors);
 
-  //get articles by distinct author
-  var authorsWithBodies = blogArticles.map(getAuthorsWithBodies);
+  //Set local storage
+  localStorage.setItem('numDistinctAuthors', numDistinctAuthors);
+  console.log('Set Local Storage - Total # Distinct Authors: ' + localStorage.numDistinctAuthors);
 
-  //get objects containing author and body keys
-  function getAuthorsWithBodies(obj) {
-      if (obj.markdown) {
-        obj.body = marked(obj.markdown);
-      }
-      return {
-        author: obj.author,
-        body: $(obj.body).text()};
 
-  } //end getAuthorsWithBodies function
-  console.log('authorsWithBodies: ', authorsWithBodies);
-
-  //filter array of objects with author and body keys by distinct author
-  var distinctAuthorsWithBodies = distinctAuthors.map(getDistinctAuthorsWithBodies);
-
-  function getDistinctAuthorsWithBodies(array){
-    if(index = authorsWithBodies.author){
-      return {
-
-      }
-    }
-  }
-
+  // /******* WORDS PER DISTINCT AUTHOR ******/
+  //
+  // //get articles by distinct author
+  // var authorsWithBodies = blogArticles.map(getAuthorsWithBodies);
+  //
+  // //get objects containing author and body keys
+  // function getAuthorsWithBodies(obj) {
+  //     if (obj.markdown) {
+  //       obj.body = marked(obj.markdown);
+  //     }
+  //     return {
+  //       author: obj.author,
+  //       body: $(obj.body).text()};
+  //
+  // } //end getAuthorsWithBodies function
+  // console.log('authorsWithBodies: ', authorsWithBodies);
+  //
+  // //filter array of objects with author and body keys by distinct author
+  // var distinctAuthorsWithBodies = distinctAuthors.map(getDistinctAuthorsWithBodies);
+  //
+  // function getDistinctAuthorsWithBodies(array){
+  //   if(index = authorsWithBodies.author){
+  //     return {
+  //
+  //     }
+  //   }
+  // }
+  //
 
 
   /******* TOTAL NUMBER OF WORDS ******/
-
-
 
   //Get array of markdown or body values
   var allBodies = blogArticles.map(getAllBodies);
@@ -119,7 +140,6 @@ function generateStats(data){
 
 
 
-
   //GET TOTAL WORDS
   var totalWords = statsPerArticleBody.reduce(addWords, 0);
 
@@ -129,6 +149,9 @@ function generateStats(data){
   $('#totalNumWords').html(totalWords.toLocaleString());
   console.log('Total Words: ',totalWords);
 
+  //Set local storage
+  localStorage.setItem('totalWords', totalWords);
+  console.log('Set Local Storage - Total Words: ' + localStorage.totalWords);
 
 
 
@@ -143,6 +166,12 @@ function generateStats(data){
   var avgWordLength = (totalCharacters/totalWords);
   $('#avgWordLength').html(avgWordLength.toFixed(2));
   console.log('AVG Word Length: ', avgWordLength);
+
+  //Set local storage
+  localStorage.setItem('avgWordLength', avgWordLength);
+  console.log('Set Local Storage - Avg Word Length: ' + localStorage.avgWordLength);
+
+
 
 } //end generateStats function
 
