@@ -27,7 +27,6 @@ $(function(){
 
 
     var data = object;
-    console.log(data.length);
 
     for(i=0; i<data.length; i++){
       if(data[i].markdown){
@@ -67,8 +66,6 @@ $(function(){
       }
       //Store returned array in a variable
       var categoryStrings = getCategoryFilterItems();
-      console.log(categoryStrings);
-      console.log(categoryStrings.length);
 
       //function to build array of all author names from blog.rawData
       function getAuthorFilterItems(){
@@ -100,7 +97,6 @@ $(function(){
       var uniqueCategories = getUnique(categoryStrings);
       var uniqueAuthors = getUnique(authorStrings);
 
-      console.log(uniqueCategories);
 
       //load unique arrays into html select elements
       function printToSelect(array, elementId){
@@ -112,10 +108,6 @@ $(function(){
       printToSelect(uniqueCategories, '#category-filter');
       printToSelect(uniqueAuthors, '#author-filter');
 
-
-
-      console.log(data[0])
-      //compile data and template
 
 
 /************* COMPILE TEMPLATE AND SORTED OBJECT *************/
@@ -210,17 +202,26 @@ $(function(){
 
 
     function loadFromJson(eTag){
-      //Set eTag since user local storage is not up to date
-      localStorage.setItem('eTag', eTag);
-      console.log('loadFromJson set local eTag: ' + localStorage.eTag);
+
 
       //Load articles from server and set data to local storage
       $.getJSON('js/blogArticles.json', function(data){
+
         localStorage.setItem('blogArticles', JSON.stringify(data));
 
         //run data through handlebars template
         handlebarsOutput(data);
         console.log("LOADED FROM JSON");
+
+        //Set eTag since user local storage is not up to date
+        localStorage.setItem('eTag', eTag);
+        console.log('loadFromJson set local eTag: ' + localStorage.eTag);
+
+        //generate statistics
+        console.log('GENERATING STATS...');
+        generateStats(data);
+
+
       });
     }//end loadFromJSON function
 
@@ -231,9 +232,11 @@ $(function(){
       handlebarsOutput(cachedBlog);
       console.log("LOADED FROM LOCAL");
 
+      //generate statistics
+      console.log('GENERATING STATS...');
+      generateStats(cachedBlog);
+
     };
-    console.log("Access cachedBlog outside of fx: "+ cachedBlog);
-// loadFromLocalStorage();
 
 
     // var eTag;
@@ -248,16 +251,19 @@ $(function(){
         } //end success response Function
       }).done(function(){
 
-          // getBlogArticles();
-
           console.log("Local Storage eTag:"+localStorage.getItem('eTag'));
+
         if(localStorage.getItem('eTag')){
-          console.log("if local storage exists truthy")
+          console.log("Evaluating if local storage exists/is truthy...")
+
           if(localStorage.getItem('eTag') !== eTag){ //If tags don't match
+
           //load JSON file from server
           console.log('If eTags NOT EQUAL...LOAD FROM JSON');
           loadFromJson(eTag);
+
           }else{
+
           //load from user local storage
           console.log('If eTags ARE EQUAL...LOAD FROM LOCAL SERVER');
           loadFromLocalStorage(eTag);
@@ -271,6 +277,8 @@ $(function(){
       )}; //end done method and end of eTagGetFromServer function
 
 eTagGetFromServer();
+
+
 
 
 
