@@ -1,7 +1,8 @@
 // $(function(){
 
 
-$.getJSON('js/blogArticles.json', function(data) {
+function generateStats(data){
+
   var blogArticles = data;
   console.log('Raw Data: ', blogArticles);
 
@@ -35,15 +36,56 @@ $.getJSON('js/blogArticles.json', function(data) {
   }; //end GetDistinctAuthors function
   console.log('Distinct Authors: ', distinctAuthors);
 
+
+
+  // //Get bodies for distinct Authors in order to get word length by author
+  // var BodiesOfDistinctAuthors = distinctAuthors.map(getBodiesOfDistinctAuthors);
+  //
+  // function getBodiesOfDistinctAuthors(index, blogArticles){
+  //     if(index = blogArticles.author){
+  //       return obj.body;
+  //     }
+  // }
+  // console.log('TEST GET OBJ BODY FOR DISTINCT AUTHOR: ', BodiesOfDistinctAuthors);
+
+
+
   //get # of distinct authors from array of distinct authors
   var numDistinctAuthors = distinctAuthors.length;
   $('#totalNumDistinctAuthors').html(numDistinctAuthors);
   console.log('Number of Distinct Authors: ', numDistinctAuthors);
 
+  //get articles by distinct author
+  var authorsWithBodies = blogArticles.map(getAuthorsWithBodies);
+
+  //get objects containing author and body keys
+  function getAuthorsWithBodies(obj) {
+      if (obj.markdown) {
+        obj.body = marked(obj.markdown);
+      }
+      return {
+        author: obj.author,
+        body: $(obj.body).text()};
+
+  } //end getAuthorsWithBodies function
+  console.log('authorsWithBodies: ', authorsWithBodies);
+
+  //filter array of objects with author and body keys by distinct author
+  var distinctAuthorsWithBodies = distinctAuthors.map(getDistinctAuthorsWithBodies);
+
+  function getDistinctAuthorsWithBodies(array){
+    if(index = authorsWithBodies.author){
+      return {
+
+      }
+    }
+  }
 
 
 
   /******* TOTAL NUMBER OF WORDS ******/
+
+
 
   //Get array of markdown or body values
   var allBodies = blogArticles.map(getAllBodies);
@@ -51,13 +93,11 @@ $.getJSON('js/blogArticles.json', function(data) {
   //get all body or markdown values
   //if markdown, run 'marked' on it and call it body
   function getAllBodies(obj) {
-    if (obj.author || obj.markdown) {
       if (obj.markdown) {
         obj.body = marked(obj.markdown);
       }
       return $(obj.body).text();
 
-    }
   }; //end getAllBodies function
   console.log('Array of All Article Bodies: ', allBodies);
 
@@ -78,14 +118,18 @@ $.getJSON('js/blogArticles.json', function(data) {
   console.log('Stats per Article Body: ', statsPerArticleBody);
 
 
+
+
   //GET TOTAL WORDS
   var totalWords = statsPerArticleBody.reduce(addWords, 0);
 
   function addWords(sum, obj){
     return (sum + obj.words);
   }
-  $('#totalNumWords').html(totalWords);
+  $('#totalNumWords').html(totalWords.toLocaleString());
   console.log('Total Words: ',totalWords);
+
+
 
 
   //GET TOTAL CHARACTERS (NO SPACES)
@@ -97,36 +141,25 @@ $.getJSON('js/blogArticles.json', function(data) {
   console.log('Total Characters: ', totalCharacters);
 
   var avgWordLength = (totalCharacters/totalWords);
-  $('#avgWordLength').html(avgWordLength);
+  $('#avgWordLength').html(avgWordLength.toFixed(2));
   console.log('AVG Word Length: ', avgWordLength);
 
+} //end generateStats function
 
 
 
-  var testCountArray = ["Skate ipsum dolor sit amet, 270 slap maxwell pool lipslide flail."];
-  var testCount = testCountArray.map(testCount);
-
-  //get stats on words for each array of text
-  //returns an array of objects
-  function testCount(val) {
-    return {
-      charactersNoSpaces: val.replace(/[\s\.\\/,"'<>]+/g, '').length,
-      characters: val.length,
-      words: val.match(/\S+/g).length
-    };
-  } //end wordCount function
-  console.log('Test: ',testCount);
-
-
-
-
-
-
-}); //end getJSON call
-
-
-
-
-
+  // var testCountArray = ["Skate ipsum dolor sit amet, 270 slap maxwell pool lipslide flail."];
+  // var testCount = testCountArray.map(testCount);
+  //
+  // //get stats on words for each array of text
+  // //returns an array of objects
+  // function testCount(val) {
+  //   return {
+  //     charactersNoSpaces: val.replace(/[\s\.\\/,"'<>]+/g, '').length,
+  //     characters: val.length,
+  //     words: val.match(/\S+/g).length
+  //   };
+  // } //end wordCount function
+  // console.log('Test: ',testCount);
 
 // }); //end document.ready

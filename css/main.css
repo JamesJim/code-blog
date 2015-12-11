@@ -98,6 +98,17 @@ img {
   font-size: 2.5em;
 }
 
+.h1Stats {
+  font-size: 3em;
+  margin: 10px;
+}
+
+.statsDiv {
+  margin: 20px;
+  border: solid thin;
+
+}
+
 .main-header a {
   text-decoration: none;
   color: white;
@@ -105,13 +116,21 @@ img {
   border-radius: 5px;
 }
 
+.pStats {
+  text-align: center;
+}
+
 .filters {
   width: 98%;
+  max-width: 1000px;
 }
 
 .main-content {
   text-align: center;
   order: 1;
+  width: 98%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .article-header {

@@ -10,84 +10,35 @@
 <body class="bodySecret bodyStats">
 
 
-<h1 class="h1Secret">Secret Blog STATS Page</h1>
+<h1 class="h1Secret h1Stats">Secret Blog STATS Page</h1>
 
 <div class="smallDivContainer">
 
   <!-- Total number of articles -->
-  <div class="divBlock ">
+  <div class="divBlock statsDiv">
     <h2 class="headerSecret">Total # of Articles</h2>
-    <p id="totalNumArticles" class="input pRaw"></p>
+    <p id="totalNumArticles" class="input pRaw pStats"></p>
   </div>
 
   <!-- Total number of distinct authors -->
-  <div class="divBlock">
+  <div class="divBlock statsDiv">
     <h2 class="headerSecret">Total # of Distinct Authors:</h2>
-    <p id="totalNumDistinctAuthors" class="input pRaw"></p>
+    <p id="totalNumDistinctAuthors" class="input pRaw pStats"></p>
   </div>
 
   <!-- Total number of words -->
-  <div class="divBlock">
+  <div class="divBlock statsDiv">
     <h2 class="headerSecret">Total # of Words:</h2>
-    <p id="totalNumWords" class="input pRaw"></p>
+    <p id="totalNumWords" class="input pRaw pStats"></p>
   </div>
 
   <!-- Word count per article -->
-  <div class="divBlock">
+  <div class="divBlock statsDiv">
     <h2 class="headerSecret">Average Word Length:</h2>
-    <p id="avgWordLength" class="input pRaw"></p>
+    <p id="avgWordLength" class="input pRaw pStats"></p>
   </div>
 
-  <!-- PublishedOn -->
-  <div class="divBlock">
-    <h2 class="headerSecret">:</h2>
-    <p id="textPublishedOn" class="input pRaw"></p>
 
-  </div>
-</div>
-
-<div class="largeDivContainer">
-
-  <!-- Body -->
-  <div class="divBlock">
-    <h2 class="headerSecret"></h2>
-    <p></p>
-  </div>
-<!--
-  <div class="divBlock">
-    <h2 class="headerSecret"></h2>
-    <p id="liveRawHtmlOutput" class="output"></p>
-  </div>
-
-  <div class="divBlock">
-    <h2 class="headerSecret"></h2>
-    <p id="pJson" class="output"></p>
-  </div>
-
-  <div class="markdownDiv">
-    <h2 class="headerSecret"></h2>
-    <p id="pMarkOut"></p>
-  </div> -->
-
-</div>
-
-
-<!-- <script id="articleTemplate" type="text/x-handlebars-template">
-
-    <article class="arTemplate flex-container">
-      <section id="content-header" class="article-header flex-container flex-item">
-        <h1 class="title flex-item">{{title}}</h1>
-        <h3 class="author flex-item">Author: <a class="authorUrl" href="{{authorUrl}}">{{author}}</a></h3>
-        <h3 class="category flex-item">Category: {{category}}</h3>
-        <h3 class="date flex-item"><time pubdate datetime="{{publishedOn}}">{{publishedOn}}</time></h3>
-      </section>
-      <section class="article-body flex-container flex-item">{{{body}}}</section>
-      <section id="expand-article flex-item">
-        <button class="expand-button" type="button">Show Full Post</button>
-      </section>
-    </article>
-
-</script> -->
 
 
 
@@ -95,8 +46,10 @@
 <script src="https://cdn.jsdelivr.net/handlebarsjs/4.0.5/handlebars.min.js"></script>
 <script src="js/marked.min.js"></script>
 <script src="//cdn.jsdelivr.net/highlight.js/9.0.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script> -->
+<script>hljs.initHighlightingOnLoad();</script>
 <script src="js/stats.js"></script>
+<script src="js/app.js"></script>
+
 
 </body>
 </html>
