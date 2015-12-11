@@ -252,7 +252,7 @@ $(function(){
 
           console.log("Local Storage eTag:"+localStorage.getItem('eTag'));
         if(localStorage.getItem('eTag')){
-          console.log("if local storage exists truthy")
+          console.log("Evaluating if local storage exists truthy...")
           if(localStorage.getItem('eTag') !== eTag){ //If tags don't match
           //load JSON file from server
           console.log('If eTags NOT EQUAL...LOAD FROM JSON');
@@ -271,6 +271,8 @@ $(function(){
       )}; //end done method and end of eTagGetFromServer function
 
 eTagGetFromServer();
+
+
 
 
 
