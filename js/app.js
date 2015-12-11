@@ -8,6 +8,15 @@ $(function(){
   // }
   // getAllArticles();
 
+$.getJSON('js/blogArticles.json', function(data){
+
+  webDB.init();
+  webDB.insertAllRecords(data);
+  console.log(data);
+
+});
+
+
 
   function sortByDate(A) {
     A.sort(
@@ -206,6 +215,10 @@ $(function(){
 
       //Load articles from server and set data to local storage
       $.getJSON('js/blogArticles.json', function(data){
+
+        // webDB.init();
+        // webDB.setupTables();
+        // webDB.insertAllRecords(data);
 
         localStorage.setItem('blogArticles', JSON.stringify(data));
 
