@@ -187,6 +187,23 @@ a:hover {
   margin: 2px;
 }
 
+.blogEditButtonsDiv {
+  height: 20px;
+  margin: 10px;
+}
+
+.blogEditButton {
+  background: royalblue;
+  color: #fff;
+  border-radius: 5px;
+  border: #000 solid;
+  margin: 0 20px;
+}
+
+.blogEditButton:hover {
+  background: skyblue;
+}
+
 /*********** Layout ************/
 
 /* For mobile screens */

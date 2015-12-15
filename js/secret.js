@@ -51,29 +51,15 @@ $(function() {
 
     console.log(data);
 
-
-    // //Use 'marked' on the rest of the items to prepare for raw HTML output
-    // //since we want to show tags
-    // var t = marked(titleVal);
-    // var c = marked(categoryVal);
-    // var a = marked(authorVal);
-    // var u = marked(urlVal);
-    // var p = marked(publishedOnVal);
-    //
-    // //Combine all inputs into one to send to raw HTML output
-    // var allTheBlock = t + c + a + u + p + b;
-
     //"Get" handlebars template from file, compile response with data,
     //send to admin page markdown preview
     $.get('template.html', function(template){
-      //Use the 'Handlebars.compile() method'
+      //Use the 'Handlebars.compile() method' to import template
       var compiler = Handlebars.compile(template);
-
-
 
       //Compile data from object and html template
       var compiledHtml = compiler(data);
-      console.log(compiledHtml);
+      console.log('Compiled HTML: ',compiledHtml);
 
       //Send compiled data in html template to the markdown output div
       $('#pMarkOut').html(compiledHtml);
@@ -89,15 +75,11 @@ $(function() {
 
     }); //end $.get response function
 
-    // $livePreview.find('pre code').each(function(i, block) {
-    //   hljs.highlightBlock(block);
-    // });
-
     //Make object a JSON object by stringifying it
     //At the same time, set the value of our admin page jQuery div to this JSON object
     pJson.text(JSON.stringify(data));
 
-  };
+  }; //end render function
 
   // Any character change (article editing) updates the live output paragraphs
   textTitle.on('input', render);
