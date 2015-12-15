@@ -1,112 +1,226 @@
 //document.ready
-$(function(){
-  // function getAllArticles(){
-  //   $.getJSON('js/blogArticles.json', function(data){
-  //     blogArticles = JSON.parse(data);
-  //     console.log(blogArticles);
-  //   });
-  // }
-  // getAllArticles();
+// $(function(){
+
+var myFunctions = {};
+
+// webDB.init();
 
 
-  function sortByDate(A) {
-    A.sort(
-     function(a, b) {
-       if (a.publishedOn < b.publishedOn) { return 1; }
-       if (a.publishedOn > b.publishedOn) { return -1; }
-       return 0;
-     }
-   );//end sort
- }//end dort by Date function
+   // var eTag;
+   //AJAX call to remote server to get the eTag - SLOW PROCESS!
+   myFunctions.eTagGetFromServer = function (){
+     $.ajax({
+       type: "HEAD", //Just checks head for data - use GET if want to get data
+       url: "js/test.json",
+       success: function(data, status, xhr){ //function must take all 3 parameters
+         eTag = xhr.getResponseHeader('eTag'); //if successful, returns xhr
+         console.log("GET SERVER eTag: " + eTag);
+       } //end success response Function
+     }).done(function(){
 
+         console.log("GET LOCAL STORAGE eTag:"+localStorage.getItem('eTag'));
+
+       if(localStorage.getItem('eTag')){
+         console.log("Evaluating if local storage exists/is truthy...")
+
+         if(localStorage.getItem('eTag') !== eTag){ //If tags don't match
+
+           //load JSON file from server
+           console.log('eTags NOT EQUAL');
+           myFunctions.loadFromJson(eTag);
+           console.log("LOADED FROM JSON");
+
+           localStorage.setItem('eTag', eTag);
+           console.log('SET LOCAL eTag: ' + localStorage.eTag);
+
+
+
+         }else{
+           //load from user local storage
+           console.log('eTags ARE EQUAL');
+           myFunctions.loadFromLocalStorage(eTag);
+
+
+         }
+       } else{
+         //if no eTag, load from JSON
+         console.log('No eTag found');
+         myFunctions.loadFromJson(eTag);
+
+         localStorage.setItem('eTag', eTag);
+         console.log('SET LOCAL eTag: ' + localStorage.eTag);
+
+       }
+     } //end of function inside of 'done'
+  )}; //end done method and end of eTagGetFromServer function
+
+myFunctions.eTagGetFromServer();
+
+var data;
+myFunctions.loadFromJson = function(eTag){
+
+  //remove old outdated table and set up new table
+  $.getJSON('js/test.json', function(data){
+    console.log('LOADED FROM JSON', data);
+
+    webDB.init();
+    webDB.execute('DROP TABLE articles;');
+    webDB.setupTables();
+    myFunctions.convertMarkdown(data);
+    myFunctions.sortByDate(data);
+    webDB.insertAllRecords(data);
+    //run data through handlebars template
+    console.log('FROM JSON BEFORE HANDLEBARS', data);
+    handlebarsOutput(data);
+
+
+    //Set eTag since user local storage is not up to date
+
+
+  }).done( function(){//end getJSON CALL
+    console.log('getJSON.done');
+    //  webDB.execute('DROP TABLE articles;');
+
+
+
+
+      // localStorage.setItem('blogArticles', JSON.stringify(data));
+
+
+     //  //generate statistics
+     //  console.log('GENERATING STATS...',data);
+     //  generateStats(data);
+
+   }); //end .done()
+
+  }//end loadFromJSON function
+
+  var cachedBlog;
+  //load page from local storage when cache is up to date
+  myFunctions.loadFromLocalStorage = function(){
+    // cachedBlog = JSON.parse(localStorage.getItem('blogArticles'));
+
+    $dbOut = $('#dbOut');
+    webDB.connect('blogDB', 'Blog Database', 5*1024*1024);
+    webDB.getAllArticles();
+    console.log('FROM LOCAL STORAGE, BEFORE HANDLEBARS', data);
+
+
+
+    // cachedBlog = webDB.execute('SELECT * FROM articles;');
+
+    handlebarsOutput(data);
+    console.log("LOADED FROM LOCAL", data);
+
+
+
+    //generate statistics
+  //   console.log('GENERATING STATS...');
+  //   generateStats(data);
+
+  }; //end loadFromLocalStorage function
 
 
   function handlebarsOutput(object){
+    console.log('HANDLEBARS IS RUNNING');
+    var data = object;
+
+    webDB.getDistinctAuthors(showDistinctAuthors);
+    webDB.getDistinctCategories(showDistinctCategories);
+
+    /***** MOVE STEP TO COMPILE FUNCTION ******/
+
+    // webDB.getAllArticles(showArticles);
+    // console.log('AFTER TABLE SETUP', data);
+    //
+    // $dbOut = $('#dbOut');
+    // console.log('$dbOut: ',$dbOut);
+
+    // showArticles(data);
+
+    // webDB.getAllArticles(showArticles);
+
+
+    // setTimeout(function() {
+    //   printToSelect(uniqueCategories, '#category-filter');
+    //   printToSelect(uniqueAuthors, '#author-filter');
+    // }, 5000);
 
 /************ GET DATA & COMPILE **************/
 
-
-    var data = object;
-
-    for(i=0; i<data.length; i++){
-      if(data[i].markdown){
-        data[i].markdown = marked(data[i].markdown);
-      }};
-
     //Handlebars now gets it's shape from the template.handlebars file
     $.get('handlebarstemplate.html', function(template){
-
+      console.log('GOT HANDLEBARS TEMPLATE', template);
 
 
       //compile the template
       var compiler = Handlebars.compile(template); //this is a string
       //save our data array in a variable so that we can make it an object
+      console.log('COMPILED HANDLEBARS', template);
 
-
-
-
-
-/*********** SORT DATA *****************/
+      /*********** SORT DATA *****************/
 
       //sort by date Function
-      sortByDate(data);
+      // sortByDate(data);
 
-/************ CREATE ARRAYS TO GET UNIQUE LISTS FOR FILTERS **********/
+      /************ CREATE ARRAYS TO GET UNIQUE LISTS FOR FILTERS **********/
 
       //function to build array of all category names from blog.rawData
-      function getCategoryFilterItems(){
-        var tempFilterArray = [];
-
-        for(i=0; i<data.length; i++){
-          tempFilterArray.push(data[i].category);
-
-        }
-        // console.log(tempFilterArray);
-        return tempFilterArray;
-      }
-      //Store returned array in a variable
-      var categoryStrings = getCategoryFilterItems();
-
-      //function to build array of all author names from blog.rawData
-      function getAuthorFilterItems(){
-        var tempFilterArray = [];
-        for(i=0; i<data.length; i++){
-          tempFilterArray.push(data[i].author);
-        }
-        // console.log(tempFilterArray);
-        return tempFilterArray;
-      }
-      //Store returned array in a variable
-      var authorStrings = getAuthorFilterItems();
-
-      //Function to put all the unique items in an array
-      function getUnique(inputArray){
-
-        var outputArray = [];
-
-        for (i=0; i < inputArray.length; i++){
-          //If inputArray item is not in outputArray, then push item to output array
-          if (($.inArray(inputArray[i], outputArray)) == -1){
-            outputArray.push(inputArray[i]);
-          }
-        }
-        return outputArray;
-      } //end getUnique array function
-
-      //Store returned unique arrays in a variable
-      var uniqueCategories = getUnique(categoryStrings);
-      var uniqueAuthors = getUnique(authorStrings);
+      // function getCategoryFilterItems(){
+      //   var tempFilterArray = [];
+      //
+      //   for(i=0; i<data.length; i++){
+      //     tempFilterArray.push(data[i].category);
+      //
+      //   }
+      //   // console.log(tempFilterArray);
+      //   return tempFilterArray;
+      // }
+      // //Store returned array in a variable
+      // var categoryStrings = getCategoryFilterItems();
 
 
+      //
+      // //function to build array of all author names from blog.rawData
+      // function getAuthorFilterItems(){
+      //   var tempFilterArray = [];
+      //   for(i=0; i<data.length; i++){
+      //     tempFilterArray.push(data[i].author);
+      //   }
+      //   // console.log(tempFilterArray);
+      //   return tempFilterArray;
+      // }
+      // //Store returned array in a variable
+      // var authorStrings = getAuthorFilterItems();
+      //
+      // //Function to put all the unique items in an array
+      // function getUnique(inputArray){
+      //
+      //   var outputArray = [];
+      //
+      //   for (i=0; i < inputArray.length; i++){
+      //     //If inputArray item is not in outputArray, then push item to output array
+      //     if (($.inArray(inputArray[i], outputArray)) == -1){
+      //       outputArray.push(inputArray[i]);
+      //     }
+      //   }
+      //   return outputArray;
+      // } //end getUnique array function
+      //
+      // //Store returned unique arrays in a variable
+      // var uniqueCategories = getUnique(categoryStrings);
+      // var uniqueAuthors = getUnique(authorStrings);
+      //
+      //
       //load unique arrays into html select elements
-      function printToSelect(array, elementId){
-        for(i=0; i<array.length; i++){
-          $(elementId).append('<option value=\''+array[i]+'\'>'+array[i]+'</option>');
-          // console.log(array[i]);
-        }
-      } //end printToSelect function
-      printToSelect(uniqueCategories, '#category-filter');
-      printToSelect(uniqueAuthors, '#author-filter');
+      // function printToSelect(array, elementId){
+      //   for(i=0; i<array.length; i++){
+      //     $(elementId).append('<option value=\''+array[i]+'\'>'+array[i]+'</option>');
+      //     // console.log(array[i]);
+      //   }
+      // } //end printToSelect function
+      // printToSelect(uniqueCategories, '#category-filter');
+      // printToSelect(uniqueAuthors, '#author-filter');
 
 
 
@@ -115,8 +229,6 @@ $(function(){
       var compiledHtml = compiler({data});
       //add compiled html to DOM by inserting an id attribute in an element
       $('#handlebarsOutput').html(compiledHtml);
-
-
 
       /********************EVENT LISTENERS******************************/
       $('.article-body').find('p').not(':first').hide();
@@ -197,91 +309,54 @@ $(function(){
           hljs.highlightBlock(block);
         });
       });
-    }); //end '.get' statement
+   }); //end '.get' statement for template
+
   }; //end handlebars output statement
 
+  myFunctions.sortByDate = function(A) {
+    console.log('SORT BY DATE IS RUNNING');
 
-    function loadFromJson(eTag){
-
-
-      //Load articles from server and set data to local storage
-      $.getJSON('js/blogArticles.json', function(data){
-
-        localStorage.setItem('blogArticles', JSON.stringify(data));
-
-        //run data through handlebars template
-        handlebarsOutput(data);
-        console.log("LOADED FROM JSON");
-
-        //Set eTag since user local storage is not up to date
-        localStorage.setItem('eTag', eTag);
-        console.log('loadFromJson set local eTag: ' + localStorage.eTag);
-
-        //generate statistics
-        console.log('GENERATING STATS...');
-        generateStats(data);
+    A.sort(
+     function(a, b) {
+       if (a.publishedOn < b.publishedOn) { return 1; }
+       if (a.publishedOn > b.publishedOn) { return -1; }
+       return 0;
+     }
+   );//end sort
+ }//end sort by Date function
 
 
-      });
-    }//end loadFromJSON function
+ myFunctions.convertMarkdown = function(data){
+   console.log('CONVERT MARKDOWN IS RUNNING');
 
-    var cachedBlog;
-    //load page from local storage when cache is up to date
-    function loadFromLocalStorage(){
-      cachedBlog = JSON.parse(localStorage.getItem('blogArticles'));
-      handlebarsOutput(cachedBlog);
-      console.log("LOADED FROM LOCAL");
+      for(i=0; i<data.length; i++){
+       if(data[i].markdown){
+          data[i].body = marked(data[i].markdown);
+       }
+      };
+         console.log("Markdown Converted", data);
+      }
 
-      //generate statistics
-      console.log('GENERATING STATS...');
-      generateStats(cachedBlog);
+ // //load unique arrays into html select elements
+ // myFunctions.printCategoryToSelect = function(array, elementId){
+ //   console.log('PRINT CATEGORY TO SELECT IS RUNNING');
+ //   for(i=0; i<array.length; i++){
+ //     $(elementId).append('<option value=\''+array[i].category+'\'>'+array[i].category+'</option>');
+ //     console.log('TO FILTER: ',array[i].category);
+ //   }
+ // } //end printToSelect function
 
-    };
-
-
-    // var eTag;
-    //AJAX call to remote server to get the eTag - SLOW PROCESS!
-    function eTagGetFromServer(){
-      $.ajax({
-        type: "HEAD", //Just checks head for data - use GET if want to get data
-        url: "js/blogArticles.json",
-        success: function(data, status, xhr){ //function must take all 3 parameters
-          eTag = xhr.getResponseHeader('eTag'); //if successful, returns xhr
-          console.log("Server eTag: " + eTag);
-        } //end success response Function
-      }).done(function(){
-
-          console.log("Local Storage eTag:"+localStorage.getItem('eTag'));
-
-        if(localStorage.getItem('eTag')){
-          console.log("Evaluating if local storage exists/is truthy...")
-
-          if(localStorage.getItem('eTag') !== eTag){ //If tags don't match
-
-          //load JSON file from server
-          console.log('If eTags NOT EQUAL...LOAD FROM JSON');
-          loadFromJson(eTag);
-
-          }else{
-
-          //load from user local storage
-          console.log('If eTags ARE EQUAL...LOAD FROM LOCAL SERVER');
-          loadFromLocalStorage(eTag);
-          }
-        } else{
-          //if no eTag, load from JSON
-          console.log('No eTag found');
-          loadFromJson(eTag);
-        }
-        } //end of function inside of 'done'
-      )}; //end done method and end of eTagGetFromServer function
-
-eTagGetFromServer();
+ // //load unique arrays into html select elements
+ // myFunctions.printAuthorToSelect = function(array, elementId){
+ //   console.log('PRINT AUTHOR TO SELECT IS RUNNING');
+ //   for(i=0; i<array.length; i++){
+ //     $(elementId).append('<option value=\''+array[i].author+'\'>'+array[i].author+'</option>');
+ //     console.log('TO FILTER: ',array[i]);
+ //   }
+ // } //end printToSelect function
 
 
 
 
 
-
-
-  }); //end document.ready
+  // }); //end document.ready
