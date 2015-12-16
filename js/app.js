@@ -82,11 +82,7 @@ myFunctions.loadFromJson = function(eTag){
     console.log('getJSON.done');
     //  webDB.execute('DROP TABLE articles;');
 
-
-
-
       // localStorage.setItem('blogArticles', JSON.stringify(data));
-
 
      //  //generate statistics
      //  console.log('GENERATING STATS...',data);
@@ -105,8 +101,6 @@ myFunctions.loadFromJson = function(eTag){
     webDB.connect('blogDB', 'Blog Database', 5*1024*1024);
     webDB.getAllArticles();
     console.log('FROM LOCAL STORAGE, BEFORE HANDLEBARS', data);
-
-
 
     // cachedBlog = webDB.execute('SELECT * FROM articles;');
 
@@ -135,12 +129,7 @@ myFunctions.loadFromJson = function(eTag){
     // $dbOut = $('#dbOut');
     // console.log('$dbOut: ',$dbOut);
 
-    // showArticles(data);
-
-    // webDB.getAllArticles(showArticles);
-
-
-    /************ GET DATA & COMPILE **************/
+    /************ GET DATA **************/
 
     //Handlebars now gets it's shape from the template.handlebars file
     $.get('handlebarstemplate.html', function(template){
@@ -153,14 +142,17 @@ myFunctions.loadFromJson = function(eTag){
       console.log('COMPILED HANDLEBARS', template);
 
 
-/************* COMPILE TEMPLATE AND SORTED OBJECT *************/
+      /************* COMPILE TEMPLATE *************/
 
       var compiledHtml = compiler({data});
       //add compiled html to DOM by inserting an id attribute in an element
       $('#handlebarsOutput').html(compiledHtml);
 
+
+
       /********************EVENT LISTENERS******************************/
-      $('.article-body').find('p').not(':first').hide();
+      //preview first paragraph
+      $('.article-body').find('p').show(':lt(1)');
 
       //On Author or Category select change, hide all divs, then show selected's preview
       $('select').on('change', function (e) {
@@ -180,6 +172,8 @@ myFunctions.loadFromJson = function(eTag){
           $('.category:contains(\'' + $selection + '\')').parents('article').show(':lt(2)');
         }
       }); //end hide/show of appropriate articles on change when using filters
+
+
 
 
       //When button clicked, toggle button text; toggle expand and retract

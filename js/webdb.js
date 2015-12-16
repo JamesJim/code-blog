@@ -157,7 +157,7 @@ function showDistinctAuthors(A){
 
   uniqueAuthors = A;
   $.each(uniqueAuthors, function(i, a){
-    console.log('a=', a.author);
+    // console.log('a=', a.author);
     a.author;
     $('#author-filter').append('<option value=\''+a.author+'\'>'+a.author+'</option>');
   });
@@ -185,7 +185,7 @@ function showDistinctCategories(C){
 
   uniqueCategories = C;
   $.each(uniqueCategories, function(i, a){
-    console.log('a=', a.category);
+    // console.log('a=', a.category);
     $('#category-filter').append('<option value=\''+a.category+'\'>'+a.category+'</option>');
   });
 };
