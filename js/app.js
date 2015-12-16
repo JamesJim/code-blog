@@ -121,14 +121,6 @@ myFunctions.loadFromJson = function(eTag){
     webDB.getDistinctAuthors(showDistinctAuthors);
     webDB.getDistinctCategories(showDistinctCategories);
 
-    /***** MOVE STEP TO COMPILE FUNCTION ******/
-
-    // webDB.getAllArticles(showArticles);
-    // console.log('AFTER TABLE SETUP', data);
-    //
-    // $dbOut = $('#dbOut');
-    // console.log('$dbOut: ',$dbOut);
-
     /************ GET DATA **************/
 
     //Handlebars now gets it's shape from the template.handlebars file
@@ -187,7 +179,7 @@ myFunctions.loadFromJson = function(eTag){
           return text === 'I\'m Done!' ? 'Show Full Post' : 'I\'m Done!';
         });
 
-        //Was trying to use the same toggle language but realized you can't 'hide' a 'show!'
+        //Was trying to use the same toggle language but realized you can't 'hide' a 'show'
         $(this).parent().prev().children().show(function(i, show){
           return show === ':gt(0)' ? ':lt(3)' : ':gt(0)';
         });
@@ -202,29 +194,29 @@ myFunctions.loadFromJson = function(eTag){
 
       /****************** ABOUT/OTHER PAGE **********************/
 
-      // //Toggle class of About when link clicked
-      // $('.about-link').on('click', function(e){
-      //   $('article').hide();
-      //   $('#about-hide').css('display', 'flex');
-      // });
-      //
-      // //Close about section
-      // $('.about-button').on('click', function(e){
-      //   $('article').show(':lt(1)');
-      //   $('#about-hide').css('display', 'none');
-      // });
-      //
-      // //Toggle class of OTHER when link clicked
-      // $('.other-link').on('click', function(e){
-      //   $('article').hide();
-      //   $('#other-hide').css('display', 'flex');
-      // });
-      //
-      // //Close about section
-      // $('.other-button').on('click', function(e){
-      //   $('article').show(':lt(1)');
-      //   $('#about-hide').css('display', 'none');
-      // });
+      //Toggle class of About when link clicked
+      $('.about-link').on('click', function(e){
+        $('article').hide();
+        $('#about-hide').css('display', 'flex');
+      });
+
+      //Close about section
+      $('.about-button').on('click', function(e){
+        $('article').show(':lt(1)');
+        $('#about-hide').css('display', 'none');
+      });
+
+      //Toggle class of OTHER when link clicked
+      $('.other-link').on('click', function(e){
+        $('article').hide();
+        $('#other-hide').css('display', 'flex');
+      });
+
+      //Close about section
+      $('.other-button').on('click', function(e){
+        $('article').show(':lt(1)');
+        $('#about-hide').css('display', 'none');
+      });
 
       /************* CALCULATE DAYS PUBLISHED *************/
 
