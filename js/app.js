@@ -82,11 +82,7 @@ myFunctions.loadFromJson = function(eTag){
     console.log('getJSON.done');
     //  webDB.execute('DROP TABLE articles;');
 
-
-
-
       // localStorage.setItem('blogArticles', JSON.stringify(data));
-
 
      //  //generate statistics
      //  console.log('GENERATING STATS...',data);
@@ -105,8 +101,6 @@ myFunctions.loadFromJson = function(eTag){
     webDB.connect('blogDB', 'Blog Database', 5*1024*1024);
     webDB.getAllArticles();
     console.log('FROM LOCAL STORAGE, BEFORE HANDLEBARS', data);
-
-
 
     // cachedBlog = webDB.execute('SELECT * FROM articles;');
 
@@ -127,20 +121,7 @@ myFunctions.loadFromJson = function(eTag){
     webDB.getDistinctAuthors(showDistinctAuthors);
     webDB.getDistinctCategories(showDistinctCategories);
 
-    /***** MOVE STEP TO COMPILE FUNCTION ******/
-
-    // webDB.getAllArticles(showArticles);
-    // console.log('AFTER TABLE SETUP', data);
-    //
-    // $dbOut = $('#dbOut');
-    // console.log('$dbOut: ',$dbOut);
-
-    // showArticles(data);
-
-    // webDB.getAllArticles(showArticles);
-
-
-    /************ GET DATA & COMPILE **************/
+    /************ GET DATA **************/
 
     //Handlebars now gets it's shape from the template.handlebars file
     $.get('handlebarstemplate.html', function(template){
@@ -153,14 +134,17 @@ myFunctions.loadFromJson = function(eTag){
       console.log('COMPILED HANDLEBARS', template);
 
 
-/************* COMPILE TEMPLATE AND SORTED OBJECT *************/
+      /************* COMPILE TEMPLATE *************/
 
       var compiledHtml = compiler({data});
       //add compiled html to DOM by inserting an id attribute in an element
       $('#handlebarsOutput').html(compiledHtml);
 
+
+
       /********************EVENT LISTENERS******************************/
-      $('.article-body').find('p').not(':first').hide();
+      //preview first paragraph
+      $('.article-body').find('p').hide().show(':lt(1)');
 
       //On Author or Category select change, hide all divs, then show selected's preview
       $('select').on('change', function (e) {
@@ -168,6 +152,7 @@ myFunctions.loadFromJson = function(eTag){
         // console.log('this', this)
         var $selection = $(this).val();
         console.log('selection: '+ $selection);
+
         if( ($selection == 'Filter by category') || ($selection == 'Filter by author')){
           $('article').show();
         } else if($(this).attr('id') == 'author-filter'){
@@ -182,6 +167,8 @@ myFunctions.loadFromJson = function(eTag){
       }); //end hide/show of appropriate articles on change when using filters
 
 
+      /****************** TOGGLE EXPAND BUTTON *******************/
+
       //When button clicked, toggle button text; toggle expand and retract
       $('.expand-button').on('click', function(e){
         var $this = $(this);
@@ -192,7 +179,7 @@ myFunctions.loadFromJson = function(eTag){
           return text === 'I\'m Done!' ? 'Show Full Post' : 'I\'m Done!';
         });
 
-        //Was trying to use the same toggle language but realized you can't 'hide' a 'show!'
+        //Was trying to use the same toggle language but realized you can't 'hide' a 'show'
         $(this).parent().prev().children().show(function(i, show){
           return show === ':gt(0)' ? ':lt(3)' : ':gt(0)';
         });
@@ -205,7 +192,7 @@ myFunctions.loadFromJson = function(eTag){
 
       }); //end expand button on click function
 
-
+      /****************** ABOUT/OTHER PAGE **********************/
 
       //Toggle class of About when link clicked
       $('.about-link').on('click', function(e){
@@ -219,6 +206,19 @@ myFunctions.loadFromJson = function(eTag){
         $('#about-hide').css('display', 'none');
       });
 
+      //Toggle class of OTHER when link clicked
+      $('.other-link').on('click', function(e){
+        $('article').hide();
+        $('#other-hide').css('display', 'flex');
+      });
+
+      //Close about section
+      $('.other-button').on('click', function(e){
+        $('article').show(':lt(1)');
+        $('#about-hide').css('display', 'none');
+      });
+
+      /************* CALCULATE DAYS PUBLISHED *************/
 
       $('.date').find('time').each( function(){
         var datePublished = $(this).text();

@@ -14,7 +14,6 @@ body {
 
   align-content: center;
   min-height: 800px;
-
 }
 
 h1 {
@@ -138,6 +137,7 @@ img {
   margin-top: 5px;
   border: solid #003399;
   text-align: center;
+  justify-content: flex-start;
 }
 
 .article-body {
@@ -161,8 +161,9 @@ img {
   order: 99;
 }
 
-#about-hide {
-  display: none;
+#about-hide,
+#other-hide {
+  /*display: none;*/
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -213,6 +214,7 @@ a:hover {
   flex-direction: column;
   border-radius: 5px;
   justify-content: center;
+  align-content: flex-start;
 }
 
 .main-header {
@@ -289,7 +291,8 @@ a:hover {
 
   .main-header h1 {
   font-size: 3em;
-  margin-left: 5px;
+  margin-left: 20px;
+  min-width: 220px;
   }
 
   .main-header h2 {
