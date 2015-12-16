@@ -161,8 +161,9 @@ img {
   order: 99;
 }
 
-#about-hide {
-  display: none;
+#about-hide,
+#other-hide {
+  /*display: none;*/
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
