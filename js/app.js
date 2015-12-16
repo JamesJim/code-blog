@@ -72,6 +72,7 @@ myFunctions.loadFromJson = function(eTag){
     //run data through handlebars template
     console.log('FROM JSON BEFORE HANDLEBARS', data);
     handlebarsOutput(data);
+    generateStats(data);
 
 
     //Set eTag since user local storage is not up to date
@@ -89,7 +90,7 @@ myFunctions.loadFromJson = function(eTag){
 
      //  //generate statistics
      //  console.log('GENERATING STATS...',data);
-     //  generateStats(data);
+
 
    }); //end .done()
 
@@ -112,11 +113,9 @@ myFunctions.loadFromJson = function(eTag){
     handlebarsOutput(data);
     console.log("LOADED FROM LOCAL", data);
 
-
-
     //generate statistics
   //   console.log('GENERATING STATS...');
-  //   generateStats(data);
+    // generateStats(data);
 
   }; //end loadFromLocalStorage function
 
@@ -141,12 +140,7 @@ myFunctions.loadFromJson = function(eTag){
     // webDB.getAllArticles(showArticles);
 
 
-    // setTimeout(function() {
-    //   printToSelect(uniqueCategories, '#category-filter');
-    //   printToSelect(uniqueAuthors, '#author-filter');
-    // }, 5000);
-
-/************ GET DATA & COMPILE **************/
+    /************ GET DATA & COMPILE **************/
 
     //Handlebars now gets it's shape from the template.handlebars file
     $.get('handlebarstemplate.html', function(template){
@@ -157,71 +151,6 @@ myFunctions.loadFromJson = function(eTag){
       var compiler = Handlebars.compile(template); //this is a string
       //save our data array in a variable so that we can make it an object
       console.log('COMPILED HANDLEBARS', template);
-
-      /*********** SORT DATA *****************/
-
-      //sort by date Function
-      // sortByDate(data);
-
-      /************ CREATE ARRAYS TO GET UNIQUE LISTS FOR FILTERS **********/
-
-      //function to build array of all category names from blog.rawData
-      // function getCategoryFilterItems(){
-      //   var tempFilterArray = [];
-      //
-      //   for(i=0; i<data.length; i++){
-      //     tempFilterArray.push(data[i].category);
-      //
-      //   }
-      //   // console.log(tempFilterArray);
-      //   return tempFilterArray;
-      // }
-      // //Store returned array in a variable
-      // var categoryStrings = getCategoryFilterItems();
-
-
-      //
-      // //function to build array of all author names from blog.rawData
-      // function getAuthorFilterItems(){
-      //   var tempFilterArray = [];
-      //   for(i=0; i<data.length; i++){
-      //     tempFilterArray.push(data[i].author);
-      //   }
-      //   // console.log(tempFilterArray);
-      //   return tempFilterArray;
-      // }
-      // //Store returned array in a variable
-      // var authorStrings = getAuthorFilterItems();
-      //
-      // //Function to put all the unique items in an array
-      // function getUnique(inputArray){
-      //
-      //   var outputArray = [];
-      //
-      //   for (i=0; i < inputArray.length; i++){
-      //     //If inputArray item is not in outputArray, then push item to output array
-      //     if (($.inArray(inputArray[i], outputArray)) == -1){
-      //       outputArray.push(inputArray[i]);
-      //     }
-      //   }
-      //   return outputArray;
-      // } //end getUnique array function
-      //
-      // //Store returned unique arrays in a variable
-      // var uniqueCategories = getUnique(categoryStrings);
-      // var uniqueAuthors = getUnique(authorStrings);
-      //
-      //
-      //load unique arrays into html select elements
-      // function printToSelect(array, elementId){
-      //   for(i=0; i<array.length; i++){
-      //     $(elementId).append('<option value=\''+array[i]+'\'>'+array[i]+'</option>');
-      //     // console.log(array[i]);
-      //   }
-      // } //end printToSelect function
-      // printToSelect(uniqueCategories, '#category-filter');
-      // printToSelect(uniqueAuthors, '#author-filter');
-
 
 
 /************* COMPILE TEMPLATE AND SORTED OBJECT *************/
