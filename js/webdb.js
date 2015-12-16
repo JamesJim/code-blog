@@ -104,7 +104,9 @@ webDB.getAllArticles = function (callback) {
     function (tx, result, resultArray) {
       resultArray.forEach(function(item){
         data.push(item);
-      });console.log('DATA AFTER GETALLARTICLES',data);
+      });
+      console.log('DATA AFTER GETALLARTICLES',data);
+      generateStats(data);
     }
   );
 };
@@ -125,12 +127,12 @@ function showArticles(A) {
   $.each(articles, function(i, a) {
     console.log('  a=' + a);
     $row = $('<tr>');
-    $cell0 = $('<td>').text(a.author);   $row.append($cell0);
+    $cell0 = $('<td>').text(a.author); $row.append($cell0);
     $cell1 = $('<td>').text(a['title']); $row.append($cell1);
-    $cell2 = $('<td>').text(a['body']);  $row.append($cell2);
+    $cell2 = $('<td>').text(a['body']); $row.append($cell2);
     $cell3 = $('<td>').text(a['authorUrl']); $row.append($cell3);
     $cell4 = $('<td>').text(a['category']); $row.append($cell4);
-    $cell5 = $('<td>').text(a['publishedOn']);  $row.append($cell5);
+    $cell5 = $('<td>').text(a['publishedOn']); $row.append($cell5);
     $dbOut.append($row);
   });
 }
