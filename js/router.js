@@ -2,9 +2,6 @@
 page.base('/');
 $(function(){
 
-
-
-
   //page('/', blog.index);
   page('/', home);
   page('home', home);
