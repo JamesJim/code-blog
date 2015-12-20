@@ -11,7 +11,7 @@ var myFunctions = {};
    myFunctions.eTagGetFromServer = function (){
      $.ajax({
        type: "HEAD", //Just checks head for data - use GET if want to get data
-       url: "js/test.json",
+       url: "js/blogArticles.json",
        success: function(data, status, xhr){ //function must take all 3 parameters
          eTag = xhr.getResponseHeader('eTag'); //if successful, returns xhr
          console.log("GET SERVER eTag: " + eTag);
@@ -60,7 +60,7 @@ var data;
 myFunctions.loadFromJson = function(eTag){
 
   //remove old outdated table and set up new table
-  $.getJSON('js/test.json', function(data){
+  $.getJSON('js/blogArticles.json', function(data){
     console.log('LOADED FROM JSON', data);
 
     webDB.init();
