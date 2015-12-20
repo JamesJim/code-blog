@@ -194,29 +194,29 @@ myFunctions.loadFromJson = function(eTag){
 
       /****************** ABOUT/OTHER PAGE **********************/
 
-      //Toggle class of About when link clicked
-      $('.about-link').on('click', function(e){
-        $('article').hide();
-        $('#about-hide').css('display', 'flex');
-      });
-
-      //Close about section
-      $('.about-button').on('click', function(e){
-        $('article').show(':lt(1)');
-        $('#about-hide').css('display', 'none');
-      });
-
-      //Toggle class of OTHER when link clicked
-      $('.other-link').on('click', function(e){
-        $('article').hide();
-        $('#other-hide').css('display', 'flex');
-      });
-
-      //Close about section
-      $('.other-button').on('click', function(e){
-        $('article').show(':lt(1)');
-        $('#about-hide').css('display', 'none');
-      });
+      // //Toggle class of About when link clicked
+      // $('.about-link').on('click', function(e){
+      //   $('article').hide();
+      //   $('#about-hide').css('display', 'flex');
+      // });
+      //
+      // //Close about section
+      // $('.about-button').on('click', function(e){
+      //   $('article').show(':lt(1)');
+      //   $('#about-hide').css('display', 'none');
+      // });
+      //
+      // //Toggle class of OTHER when link clicked
+      // $('.other-link').on('click', function(e){
+      //   $('article').hide();
+      //   $('#other-hide').css('display', 'flex');
+      // });
+      //
+      // //Close about section
+      // $('.other-button').on('click', function(e){
+      //   $('article').show(':lt(1)');
+      //   $('#about-hide').css('display', 'none');
+      // });
 
       /************* CALCULATE DAYS PUBLISHED *************/
 

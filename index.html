@@ -40,13 +40,12 @@
     <p>
       This page brought to you by: JamesJim
     </p>
-    <button type="button" class="about-button">OK, we get it. Back to home.</button>
+    <!-- <button type="button" class="about-button">OK, we get it. Back to home.</button> -->
   </section>
 
   <section id="other-hide" class="flex-container">
-    <p>
-      This is the OTHER page!
-    </p>
+    <h1>GITHUB THINGS!</h1>
+    <section id="githubApi"></section>
   </section>
 
   <main class="main-content">
@@ -77,18 +76,26 @@
     <span>&copy;2015 My Blog!</span>
   </footer>
 
+<!-- Third Party Libraries -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/handlebarsjs/4.0.5/handlebars.min.js"></script>
   <script src="https://cdn.rawgit.com/visionmedia/page.js/master/page.js"></script>
-  <script src="js/marked.min.js"></script>
-  <script src="js/webdb.js"></script>
-  <script src="js/html5sql.js"></script>
+  <script src="js/vendor/marked.min.js"></script>
   <script src="//cdn.jsdelivr.net/highlight.js/9.0.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
+
+<!-- Libraries -->
+  <script src="js/html5sql.js"></script>
+  <script src="js/webdb.js"></script>
+
+<!-- Model -->
   <script src="js/blog.js" type="text/javascript"></script>
   <script src="js/stats.js" type="text/javascript"></script>
+
+<!-- Controller -->
   <script src="js/articlecontroller.js" type="text/javascript"></script>
   <script src="js/router.js" type="text/javascript"></script>
+  <script src="js/githubapi.js" type="text/javascript"></script>
   <script src="js/app.js" type="text/javascript"></script>
 
 
