@@ -108,7 +108,7 @@ webDB.getAllArticles = function (callback) {
 
       handlebarsOutput(data);
       console.log('LOADED FROM LOCAL', data);
-
+      $('.article-body').find('p').hide().show(':lt(1)');
       console.log('DATA AFTER GETALLARTICLES',data);
       generateStats(data);
     }
