@@ -3,7 +3,7 @@ page.base('/');
 $(function(){
 
   //page('/', blog.index);
-  page('/', home);
+  page('/', index);
   page('home', home);
   page('about', about);
   page('other', other);

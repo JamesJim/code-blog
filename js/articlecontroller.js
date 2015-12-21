@@ -1,24 +1,31 @@
+function index(){
+  console.log('index() route callback run');
 
-  function home(){
-    console.log('home() route callback run');
+  $('article').show(':lt(1)');
+  $('#about-hide').hide();
+  $('#other-hide').hide();
+}
 
-    $('article').show(':lt(1)');
-    $('#about-hide').hide();
-    $('#other-hide').hide();
-  }
+function home(){
+  console.log('home() route callback run');
 
-  function about(){
-    console.log('about() route callback run');
+  $('article').show(':lt(1)');
+  $('#about-hide').hide();
+  $('#other-hide').hide();
+}
 
-    $('#about-hide').show();
-    $('article').hide();
-    $('#other-hide').hide();
-  }
+function about(){
+  console.log('about() route callback run');
 
-  function other(){
-    console.log('other() route callback run');
+  $('#about-hide').show();
+  $('article').hide();
+  $('#other-hide').hide();
+}
 
-    $('#other-hide').show();
-    $('article').hide();
-    $('#about-hide').hide();
-  }
+function other(){
+  console.log('other() route callback run');
+
+  $('#other-hide').show();
+  $('article').hide();
+  $('#about-hide').hide();
+}

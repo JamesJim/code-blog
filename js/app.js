@@ -71,8 +71,8 @@ myFunctions.loadFromJson = function(eTag){
     webDB.insertAllRecords(data);
     //run data through handlebars template
     console.log('FROM JSON BEFORE HANDLEBARS', data);
-    handlebarsOutput(data);
-    generateStats(data);
+    webDB.getAllArticles();
+
 
 
     //Set eTag since user local storage is not up to date
@@ -86,7 +86,8 @@ myFunctions.loadFromJson = function(eTag){
 
      //  //generate statistics
      //  console.log('GENERATING STATS...',data);
-
+     handlebarsOutput(data);
+     generateStats(data);
 
    }); //end .done()
 
@@ -102,14 +103,6 @@ myFunctions.loadFromJson = function(eTag){
     webDB.getAllArticles();
     console.log('FROM LOCAL STORAGE, BEFORE HANDLEBARS', data);
 
-    // cachedBlog = webDB.execute('SELECT * FROM articles;');
-
-    handlebarsOutput(data);
-    console.log("LOADED FROM LOCAL", data);
-
-    //generate statistics
-  //   console.log('GENERATING STATS...');
-    // generateStats(data);
 
   }; //end loadFromLocalStorage function
 
